@@ -1,0 +1,49 @@
+<div class="container registro-component">
+  <p>Complete los campos</p>
+
+  <form #formulario="ngForm" (ngSubmit)="registrarUsuario(formulario)">
+    <!-- NOMBRE -->
+    <input type="text" name="nombre" [(ngModel)]="nombre" placeholder="Nombre" required="nombre" />
+
+    <!-- APELLIDO -->
+    <input
+      type="text"
+      name="apellido"
+      [(ngModel)]="apellido"
+      placeholder="Apellido"
+      required="apellido"
+    />
+
+    <!-- EDAD -->
+    <input type="number" name="edad" [(ngModel)]="edad" placeholder="Edad" required="edad" />
+
+    <!-- CORREO -->
+    <input type="text" name="correo" [(ngModel)]="correo" placeholder="Correo" required="correo" />
+
+    <!-- NOMBRE USUARIO -->
+    <input
+      type="text"
+      name="usuario"
+      [(ngModel)]="usuario"
+      placeholder="Usuario"
+      required="usuario"
+    />
+
+    <!-- PASSWORD -->
+    <input
+      type="text"
+      name="password"
+      [(ngModel)]="password"
+      placeholder="Contraseña"
+      required="password"
+      minlength="8"
+    />
+    <label>
+      @if (mensaje) {
+        <p>{{ mensaje }}</p>
+      }
+    </label>
+    <button type="submit">Registrar</button>
+    <button routerLink="/inicio">Cancelar</button>
+  </form>
+</div>
