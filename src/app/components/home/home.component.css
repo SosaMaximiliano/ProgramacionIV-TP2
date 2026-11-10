@@ -1,0 +1,12 @@
+* {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background-color: #78bbcb;
+}
+
+.gif-container {
+  display: flex;
+  flex-direction: row;
+}

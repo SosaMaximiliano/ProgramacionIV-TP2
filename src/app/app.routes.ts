@@ -8,32 +8,28 @@ export const routes: Routes = [
   },
   {
     path: 'inicio',
-    loadComponent: () =>
-      import('./components/home-component/home-component').then((m) => m.HomeComponent),
+    loadComponent: () => import('./components/home/home.component').then((m) => m.HomeComponent),
   },
   {
     path: 'login',
-    loadComponent: () =>
-      import('./components/login-component/login-component').then((m) => m.LoginComponent),
+    loadComponent: () => import('./components/login/login.component').then((m) => m.LoginComponent),
   },
   {
     path: 'registro',
     loadComponent: () =>
-      import('./components/registro-component/registro-component').then((m) => m.RegistroComponent),
+      import('./components/registro/registro.component').then((m) => m.RegistroComponent),
   },
   {
     path: 'publicaciones',
     loadComponent: () =>
-      import('./components/publicaciones-component/publicaciones-component').then(
+      import('./components/publicaciones/publicaciones.component').then(
         (m) => m.PublicacionesComponent,
       ),
   },
   {
     path: 'mi-perfil',
     loadComponent: () =>
-      import('./components/mi-perfil-component/mi-perfil-component').then(
-        (m) => m.MiPerfilComponent,
-      ),
+      import('./components/mi-perfil/mi-perfil.component').then((m) => m.MiPerfilComponent),
   },
   {
     path: '**',

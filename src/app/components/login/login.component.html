@@ -1,0 +1,43 @@
+<div class="container">
+  <p>Login</p>
+  <form #formularioLogin="ngForm" (ngSubmit)="iniciarSesion(formularioLogin)">
+    <!-- USUARIO -->
+    <input
+      #usuarioInput="ngModel"
+      type="text"
+      name="usuario"
+      [(ngModel)]="usuario"
+      placeholder="Usuario"
+      required
+    />
+
+    <!-- PASSWORD -->
+    <input
+      #passwordInput="ngModel"
+      type="password"
+      name="password"
+      [(ngModel)]="password"
+      placeholder="Contraseña"
+      required
+      minlength="8"
+    />
+
+    @if (
+      (usuarioInput.invalid && (usuarioInput.touched || usuarioInput.dirty)) ||
+      (passwordInput.invalid && (passwordInput.touched || passwordInput.dirty))
+    ) {
+      <small>Ingresá un usuario y contraseña válidos.</small>
+    }
+    <label>
+      @if (mensaje()) {
+        <p>{{ mensaje() }}</p>
+      }
+    </label>
+    <button type="submit" [disabled]="formularioLogin.invalid">Ingresar</button>
+  </form>
+
+  <div class="container">
+    <span>No estás registrado?</span>
+    <a routerLink="/registro">Registrarse</a>
+  </div>
+</div>

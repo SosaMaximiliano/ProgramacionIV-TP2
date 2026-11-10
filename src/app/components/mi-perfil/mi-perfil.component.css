@@ -1,0 +1,9 @@
+* {
+  align-items: start;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.imagen-container img {
+  max-width: 100px;
+}

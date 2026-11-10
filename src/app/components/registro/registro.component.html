@@ -1,0 +1,109 @@
+<div class="container registro-component">
+  <p>Complete los campos</p>
+
+  <form [formGroup]="formRegistro" (ngSubmit)="registrarUsuario()">
+    <!-- NOMBRE -->
+    <input type="text" formControlName="nombre" placeholder="Nombre" />
+    @if (formRegistro.get('nombre')?.touched || formRegistro.get('nombre')?.dirty) {
+      @if (formRegistro.get('nombre')?.hasError('required')) {
+        <small class="field-error">El nombre es obligatorio</small>
+      }
+      @if (formRegistro.get('nombre')?.hasError('minlength')) {
+        <small class="field-error">El nombre debe tener al menos dos caracteres</small>
+      }
+      @if (formRegistro.get('nombre')?.hasError('pattern')) {
+        <small class="field-error">El nombre debe sólo puede contener letras</small>
+      }
+    }
+    <!-- APELLIDO -->
+    <input type="text" formControlName="apellido" placeholder="Apellido" />
+    @if (formRegistro.get('apellido')?.touched || formRegistro.get('apellido')?.dirty) {
+      @if (formRegistro.get('apellido')?.hasError('required')) {
+        <small class="field-error">El apellido es obligatorio</small>
+      }
+      @if (formRegistro.get('apellido')?.hasError('minlength')) {
+        <small class="field-error">El apellido debe tener al menos dos caracteres</small>
+      }
+      @if (formRegistro.get('apellido')?.hasError('pattern')) {
+        <small class="field-error">El apellido debe sólo puede contener letras</small>
+      }
+    }
+    <!-- FECHA DE NACIMIENTO -->
+    <input type="date" formControlName="fechaNacimiento" placeholder="Fecha de nacimiento" />
+    @if (
+      formRegistro.get('fechaNacimiento')?.touched || formRegistro.get('fechaNacimiento')?.dirty
+    ) {
+      @if (formRegistro.get('fechaNacimiento')?.hasError('required')) {
+        <small class="field-error"> Ingresá tu fecha de nacimiento. </small>
+      }
+    }
+    <!-- CORREO -->
+    <input type="email" formControlName="correo" placeholder="Correo" />
+    @if (formRegistro.get('correo')?.touched || formRegistro.get('correo')?.dirty) {
+      @if (formRegistro.get('correo')?.hasError('required')) {
+        <small>El correo es obligatorio</small>
+      }
+      @if (formRegistro.get('correo')?.hasError('email')) {
+        <small>Ingresá un correo válido.</small>
+      }
+    }
+    <!-- NOMBRE USUARIO -->
+    <input type="text" formControlName="usuario" placeholder="Usuario" />
+    @if (formRegistro.get('usuario')?.touched || formRegistro.get('usuario')?.dirty) {
+      @if (formRegistro.get('usuario')?.hasError('required')) {
+        <small class="field-error"> Ingresá tu usuario. </small>
+      }
+      @if (formRegistro.get('usuario')?.hasError('minlength')) {
+        <small class="field-error"> Ingresá un usuario de al menos cuatro caracteres. </small>
+      }
+    }
+
+    <!-- PASSWORD -->
+    <input type="password" formControlName="password" placeholder="Contraseña" />
+    @if (formRegistro.get('password')?.touched || formRegistro.get('password')?.dirty) {
+      @if (formRegistro.get('password')?.hasError('required')) {
+        <small class="field-error"> Ingresá tu password. </small>
+      }
+      @if (formRegistro.get('password')?.hasError('pattern')) {
+        <small class="field-error">
+          La contraseña debe tener al menos una mayúscula y un número.</small
+        >
+      }
+      @if (formRegistro.get('password')?.hasError('minlength')) {
+        <small class="field-error"> Ingresá un password de al menos 8 caracteres.</small>
+      }
+    }
+    <!-- REPETIR PASSWORD -->
+    <input type="password" formControlName="repetirPassword" placeholder="Repetir contraseña" />
+    @if (
+      formRegistro.get('repetirPassword')?.touched || formRegistro.get('repetirPassword')?.dirty
+    ) {
+      @if (formRegistro.get('repetirPassword')?.value != formRegistro.get('password')?.value) {
+        <small class="field-error"> Las contraseñas no coinciden. </small>
+      }
+    }
+
+    <!-- IMAGEN DE PERFIL -->
+    <label>Imágen de perfil</label>
+    <input type="file" (change)="seleccionarImagen($event)" />
+
+    <!-- DESCRIPCION -->
+    <input type="text" formControlName="descripcion" placeholder="Descripción" maxlength="40" />
+    @if (formRegistro.touched || formRegistro.dirty) {
+      @if (formRegistro.get('descripcion')?.hasError('maxlength')) {
+        <small class="field-error">Máximo 40 caracteres.</small>
+      }
+    }
+
+    <label>
+      @if (mensaje) {
+        <p>{{ mensaje }}</p>
+      }
+    </label>
+    <div class="container registro-botones">
+      <button type="submit" [disabled]="formRegistro.invalid">Registrar</button>
+      <button routerLink="/inicio">Cancelar</button>
+    </div>
+  </form>
+  <p class="auth-switch">¿Ya tenés cuenta? <a routerLink="/login">Iniciá sesión</a></p>
+</div>

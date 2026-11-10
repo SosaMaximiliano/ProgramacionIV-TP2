@@ -1,0 +1,14 @@
+<div class="container mt-5">
+  <div class="imagen-container">
+    @if (usuarioActual?.imagenPerfil; as imagen) {
+      <img [src]="'http://localhost:3000/uploads/' + imagen" alt="Foto de perfil" />
+    }
+  </div>
+  <p>Nombre: {{ usuarioActual?.nombre }}</p>
+  <p>Apellido: {{ usuarioActual?.apellido }}</p>
+  @if (usuarioActual) {
+    <p>Edad: {{ calcularEdad(usuarioActual.fechaNacimiento) }}</p>
+  }
+  <p>Correo: {{ usuarioActual?.correo }}</p>
+  <p>Usuario: {{ usuarioActual?.usuario }}</p>
+</div>
