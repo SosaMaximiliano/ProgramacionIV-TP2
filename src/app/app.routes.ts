@@ -32,7 +32,11 @@ export const routes: Routes = [
       import('./components/mi-perfil/mi-perfil.component').then((m) => m.MiPerfilComponent),
   },
   {
+    path: 'error',
+    loadComponent: () => import('./components/error/error.component').then((m) => m.ErrorComponent),
+  },
+  {
     path: '**',
-    redirectTo: 'inicio',
+    redirectTo: 'error',
   },
 ];

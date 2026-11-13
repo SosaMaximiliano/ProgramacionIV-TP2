@@ -1,24 +1,28 @@
-<div class="container">
-  <h2>Bienvenido a la red social</h2>
-  <div class="gif-container">
-    <div class="col1">
-      <img src="/images/reloj.gif" />
-      <img src="/images/mouth.gif" />
-      <img src="/images/ring.gif" />
-      <img src="/images/worm.gif" />
-      <img src="/images/mouth.gif" />
+<main class="home-page">
+  <section class="hero-panel">
+    <div class="hero-copy">
+      <p class="eyebrow">Un espacio para compartir</p>
+      <h1>Las cosas buenas pasan cuando las compartimos.</h1>
+      <p class="hero-description">
+        Publicá tus ideas, descubrí lo que comparte la comunidad y sumate a la conversación.
+      </p>
+      <div class="hero-actions">
+        <a class="button button-primary" routerLink="/registro">Crear mi cuenta</a>
+        <a class="button button-secondary" routerLink="/login">Ya tengo cuenta</a>
+      </div>
     </div>
 
-    <div class="col2">
-      <img src="/images/jesus.gif" />
+    <div class="hero-art" aria-label="Ilustraciones animadas de la comunidad">
+      <div class="art-note note-one"><img src="/images/mouth.gif" alt="Ilustración animada" /></div>
+      <div class="art-note note-two"><img src="/images/ring.gif" alt="Ilustración animada" /></div>
+      <div class="art-feature"><img src="/images/jesus.gif" alt="Ilustración animada central" /></div>
+      <div class="art-note note-three"><img src="/images/worm.gif" alt="Ilustración animada" /></div>
+      <div class="art-note note-four"><img src="/images/toaster.gif" alt="Ilustración animada" /></div>
     </div>
+  </section>
 
-    <div class="col3">
-      <img src="/images/reloj.gif" />
-      <img src="/images/ring.gif" />
-      <img src="/images/toaster.gif" />
-      <img src="/images/worm.gif" />
-      <img src="/images/ring.gif" />
-    </div>
-  </div>
-</div>
+  <section class="home-note">
+    <span class="note-dot"></span>
+    <p>Un feed simple, personas reales y conversaciones que empiezan con una publicación.</p>
+  </section>
+</main>

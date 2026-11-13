@@ -1,16 +1,89 @@
-* {
-  justify-content: center;
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+:host { display: block; flex: 1; }
+
+.registro-component {
+  width: min(620px, calc(100% - 32px));
+  margin: 44px auto 56px;
+  padding: clamp(24px, 5vw, 44px);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
 }
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: var(--brand);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.registro-component h1 {
+  margin: 0;
+  font-size: clamp(2rem, 6vw, 2.6rem);
+  letter-spacing: -0.05em;
+}
+
+.registro-intro { margin: 9px 0 24px; color: var(--muted); }
+
+.registro-component form { display: flex; flex-direction: column; gap: 9px; }
+
+.registro-component input:not([type='file']) {
+  width: 100%;
+  min-height: 46px;
+  margin: 0;
+  padding: 0 13px;
+  border: 1px solid #dfe4db;
+  border-radius: 11px;
+  outline: none;
+  background: #fff;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.registro-component input:focus {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px rgb(40 107 97 / 12%);
+}
+
+.registro-component input[type='file'] {
+  width: 100%;
+  padding: 12px;
+  border: 1px dashed #bccbc1;
+  border-radius: 11px;
+  background: #f8faf6;
+  color: var(--muted);
+}
+
+.registro-component label { margin: 9px 0 0; color: #43514e; font-size: 0.9rem; font-weight: 700; }
+.field-error { color: #b44d3c; font-size: 0.85rem; }
 
 .registro-botones {
   display: flex;
   flex-direction: row;
+  gap: 10px;
+  margin: 12px 0 0;
+  padding: 0;
 }
 
-input {
-  margin-top: 30px;
+.form-submit, .form-cancel {
+  min-height: 46px;
+  padding: 0 18px;
+  border: 1px solid transparent;
+  border-radius: 11px;
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.form-submit { background: var(--brand); color: white; }
+.form-submit:hover:not(:disabled) { background: var(--brand-dark); }
+.form-submit:disabled { cursor: not-allowed; opacity: 0.55; }
+.form-cancel { border-color: var(--line); background: transparent; color: var(--ink); }
+.form-cancel:hover { background: #f3f4ed; }
+
+.auth-switch { margin: 22px 0 0; color: var(--muted); text-align: center; }
+.auth-switch a { color: var(--brand); font-weight: 800; text-decoration: none; }
+
+@media (max-width: 520px) {
+  .registro-botones { align-items: stretch; flex-direction: column; }
 }

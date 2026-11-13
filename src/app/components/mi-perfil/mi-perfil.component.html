@@ -1,14 +1,27 @@
-<div class="container mt-5">
-  <div class="imagen-container">
-    @if (usuarioActual?.imagenPerfil; as imagen) {
-      <img [src]="'http://localhost:3000/uploads/' + imagen" alt="Foto de perfil" />
-    }
-  </div>
-  <p>Nombre: {{ usuarioActual?.nombre }}</p>
-  <p>Apellido: {{ usuarioActual?.apellido }}</p>
-  @if (usuarioActual) {
-    <p>Edad: {{ calcularEdad(usuarioActual.fechaNacimiento) }}</p>
-  }
-  <p>Correo: {{ usuarioActual?.correo }}</p>
-  <p>Usuario: {{ usuarioActual?.usuario }}</p>
-</div>
+<main class="profile-page">
+  <section class="profile-card">
+    <div class="profile-avatar">
+      @if (usuarioActual?.imagenPerfil; as imagen) {
+        <img [src]="'http://localhost:3000/uploads/' + imagen" alt="Foto de perfil" />
+      } @else {
+        <span>{{ usuarioActual?.usuario?.charAt(0)?.toUpperCase() }}</span>
+      }
+    </div>
+
+    <div class="profile-heading">
+      <p class="eyebrow">Tu espacio</p>
+      <h1>{{ usuarioActual?.nombre }} {{ usuarioActual?.apellido }}</h1>
+      <p class="profile-handle">@{{ usuarioActual?.usuario }}</p>
+    </div>
+
+    <div class="profile-details">
+      <div><span>Correo</span><strong>{{ usuarioActual?.correo }}</strong></div>
+      @if (usuarioActual) {
+        <div><span>Edad</span><strong>{{ calcularEdad(usuarioActual.fechaNacimiento) }} años</strong></div>
+      }
+      @if (usuarioActual?.descripcion) {
+        <div class="profile-bio"><span>Sobre mí</span><strong>{{ usuarioActual?.descripcion }}</strong></div>
+      }
+    </div>
+  </section>
+</main>

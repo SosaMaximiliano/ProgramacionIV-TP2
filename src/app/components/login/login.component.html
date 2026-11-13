@@ -1,43 +1,49 @@
-<div class="container">
-  <p>Login</p>
-  <form #formularioLogin="ngForm" (ngSubmit)="iniciarSesion(formularioLogin)">
-    <!-- USUARIO -->
-    <input
-      #usuarioInput="ngModel"
-      type="text"
-      name="usuario"
-      [(ngModel)]="usuario"
-      placeholder="Usuario"
-      required
-    />
+<main class="auth-page">
+  <section class="auth-panel">
+    <p class="eyebrow">Qué bueno verte</p>
+    <h1>Iniciá sesión</h1>
+    <p class="auth-intro">Volvé a encontrarte con tu comunidad.</p>
 
-    <!-- PASSWORD -->
-    <input
-      #passwordInput="ngModel"
-      type="password"
-      name="password"
-      [(ngModel)]="password"
-      placeholder="Contraseña"
-      required
-      minlength="8"
-    />
+    <form class="auth-form" #formularioLogin="ngForm" (ngSubmit)="iniciarSesion(formularioLogin)">
+      <label for="login-usuario">Usuario</label>
+      <input
+        #usuarioInput="ngModel"
+        id="login-usuario"
+        type="text"
+        name="usuario"
+        [(ngModel)]="usuario"
+        placeholder="Tu nombre de usuario"
+        required
+      />
 
-    @if (
-      (usuarioInput.invalid && (usuarioInput.touched || usuarioInput.dirty)) ||
-      (passwordInput.invalid && (passwordInput.touched || passwordInput.dirty))
-    ) {
-      <small>Ingresá un usuario y contraseña válidos.</small>
-    }
-    <label>
-      @if (mensaje()) {
-        <p>{{ mensaje() }}</p>
+      <label for="login-password">Contraseña</label>
+      <input
+        #passwordInput="ngModel"
+        id="login-password"
+        type="password"
+        name="password"
+        [(ngModel)]="password"
+        placeholder="Tu contraseña"
+        required
+        minlength="8"
+      />
+
+      @if (
+        (usuarioInput.invalid && (usuarioInput.touched || usuarioInput.dirty)) ||
+        (passwordInput.invalid && (passwordInput.touched || passwordInput.dirty))
+      ) {
+        <small class="field-error">Ingresá un usuario y contraseña válidos.</small>
       }
-    </label>
-    <button type="submit" [disabled]="formularioLogin.invalid">Ingresar</button>
-  </form>
 
-  <div class="container">
-    <span>No estás registrado?</span>
-    <a routerLink="/registro">Registrarse</a>
-  </div>
-</div>
+      @if (mensaje()) {
+        <p class="form-message">{{ mensaje() }}</p>
+      }
+
+      <button class="form-submit" type="submit" [disabled]="formularioLogin.invalid">
+        Ingresar
+      </button>
+    </form>
+
+    <p class="auth-switch">¿Todavía no tenés cuenta? <a routerLink="/registro">Registrate</a></p>
+  </section>
+</main>

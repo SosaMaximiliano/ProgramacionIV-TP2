@@ -1,1 +1,35 @@
-<p>publicaciones-component works!</p>
+<main class="feed-page">
+  <header class="feed-heading">
+    <div>
+      <p class="eyebrow">La comunidad</p>
+      <h1>Publicaciones</h1>
+      <p class="feed-subtitle">Ideas y momentos compartidos por todos.</p>
+    </div>
+
+    <label class="sort-control" for="orden">
+      <span>Ordenar por</span>
+      <select id="orden" [value]="orden()" (change)="cambiarOrden($event)">
+        <option value="fecha">Más recientes</option>
+        <option value="likes">Más Me gusta</option>
+      </select>
+    </label>
+  </header>
+
+  @for (post of publicaciones(); track post._id) {
+    <app-publicacion-card [publicacion]="post" />
+  } @empty {
+    <p class="empty-state">Todavía no hay publicaciones.</p>
+  }
+
+  <nav class="pagination" aria-label="Paginación de publicaciones">
+    <button class="page-button" (click)="paginaAnterior()" [disabled]="offset() === 0">
+      ← Anterior
+    </button>
+
+    <span class="page-number">Página {{ offset() / limit + 1 }}</span>
+
+    <button class="page-button" (click)="paginaSiguiente()" [disabled]="!haySiguiente()">
+      Siguiente →
+    </button>
+  </nav>
+</main>

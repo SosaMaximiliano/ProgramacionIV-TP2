@@ -1,44 +1,28 @@
-<nav class="navbar navbar-expand-sm navbar-light bg-light">
-  <div class="container">
-    <a class="navbar-brand" routerLink="/inicio">Red Social</a>
-    <button
-      class="navbar-toggler d-lg-none"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#collapsibleNavId"
-      aria-controls="collapsibleNavId"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="collapsibleNavId">
-      <ul class="navbar-nav me-auto mt-2 mt-lg-0">
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/inicio">Home</a>
-        </li>
-        @if (!usuarioService.usuarioActual()) {
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/login">LogIn</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/registro">Registro</a>
-          </li>
-        } @else {
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/mi-perfil">Mi Perfil</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" (click)="cerrarSesion()">Cerrar sesión</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/publicaciones">Publicaciones</a>
-          </li>
-        }
-      </ul>
-      @if (usuarioService.usuarioActual(); as usuario) {
-        <span class="nav-user">{{ usuario.usuario }}</span>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a class="brand" routerLink="/inicio">
+      <span class="brand-mark">r</span>
+      <span>red social</span>
+    </a>
+
+    <div class="nav-links">
+      <a class="nav-link" routerLink="/inicio">Inicio</a>
+      @if (usuarioService.usuarioActual()) {
+        <a class="nav-link" routerLink="/publicaciones">Publicaciones</a>
+        <a class="nav-link" routerLink="/mi-perfil">Mi perfil</a>
+      } @else {
+        <a class="nav-link" routerLink="/login">Ingresar</a>
+        <a class="nav-link nav-cta" routerLink="/registro">Crear cuenta</a>
       }
     </div>
+
+    @if (usuarioService.usuarioActual(); as usuario) {
+      <div class="nav-account">
+        <span class="nav-user">{{ usuario.usuario }}</span>
+        <button class="nav-link nav-logout" type="button" (click)="cerrarSesion()">
+          Salir
+        </button>
+      </div>
+    }
   </div>
 </nav>

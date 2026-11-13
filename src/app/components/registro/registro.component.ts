@@ -86,8 +86,12 @@ export class RegistroComponent {
       if (this.imagenPerfil) {
         datos.append('imagenPerfil', this.imagenPerfil);
       }
-      await this.usuarioService.registrar(datos);
-      await this.router.navigate(['/login']);
+      const respuesta = await this.usuarioService.registrar(datos);
+
+      sessionStorage.setItem('access_token', respuesta.access_token);
+      this.usuarioService.usuarioActual.set(respuesta.usuario);
+
+      await this.router.navigate(['/publicaciones']);
     } catch (error) {
       console.log(error);
       this.mensaje = 'No se pudo registrar el usuario.';

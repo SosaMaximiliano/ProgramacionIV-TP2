@@ -18,6 +18,11 @@ export interface UsuarioRespuesta {
   correo: string;
   usuario: string;
   descripcion?: string;
-  perfil: string;
   imagenPerfil?: string;
+  perfil: string;
+}
+
+export interface LoginRespuesta {
+  access_token: string;
+  usuario: UsuarioRespuesta;
 }

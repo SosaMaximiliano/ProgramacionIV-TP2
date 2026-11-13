@@ -1,5 +1,7 @@
 <div class="container registro-component">
-  <p>Complete los campos</p>
+  <p class="eyebrow">Un lugar para compartir</p>
+  <h1>Creá tu cuenta</h1>
+  <p class="registro-intro">Completá tus datos para sumarte a la comunidad.</p>
 
   <form [formGroup]="formRegistro" (ngSubmit)="registrarUsuario()">
     <!-- NOMBRE -->
@@ -101,8 +103,8 @@
       }
     </label>
     <div class="container registro-botones">
-      <button type="submit" [disabled]="formRegistro.invalid">Registrar</button>
-      <button routerLink="/inicio">Cancelar</button>
+      <button class="form-submit" type="submit" [disabled]="formRegistro.invalid">Crear cuenta</button>
+      <button class="form-cancel" type="button" routerLink="/inicio">Cancelar</button>
     </div>
   </form>
   <p class="auth-switch">¿Ya tenés cuenta? <a routerLink="/login">Iniciá sesión</a></p>

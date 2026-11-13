@@ -30,8 +30,10 @@ export class LoginComponent {
 
     try {
       this.mensaje.set('ingresando...');
-      this.usuarioEncontrado = await this.usuarioService.login(this.usuario, this.password);
-      this.usuarioService.usuarioActual.set(this.usuarioEncontrado);
+      const respuesta = await this.usuarioService.login(this.usuario, this.password);
+      this.usuarioEncontrado = respuesta.usuario;
+      this.usuarioService.usuarioActual.set(respuesta.usuario);
+      sessionStorage.setItem('access_token', respuesta.access_token);
       await this.router.navigate(['/inicio']);
     } catch (error) {
       this.mensaje.set(

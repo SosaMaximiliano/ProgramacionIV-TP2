@@ -1,1 +1,37 @@
-<p>publicacion-card works!</p>
+<article class="post-card">
+  <header class="post-header">
+    @if (publicacion.usuario.imagenPerfil; as foto) {
+      <img
+        class="post-avatar"
+        [src]="'http://localhost:3000/uploads/' + foto"
+        alt="Foto de {{ publicacion.usuario.usuario }}"
+      />
+    } @else {
+      <div class="post-avatar avatar-placeholder">
+        {{ publicacion.usuario.usuario.charAt(0).toUpperCase() }}
+      </div>
+    }
+
+    <div class="post-author">
+      <strong>{{ publicacion.usuario.usuario }}</strong>
+      <time>{{ publicacion.fecha | date: 'd MMM y, HH:mm' }}</time>
+    </div>
+  </header>
+
+  <div class="post-content">
+    <h3>{{ publicacion.titulo }}</h3>
+    <p>{{ publicacion.descripcion }}</p>
+
+    @if (publicacion.imagenPublicacion; as imagen) {
+      <img
+        class="post-image"
+        [src]="'http://localhost:3000/uploads/posts/' + imagen"
+        alt="Imagen de la publicación"
+      />
+    }
+  </div>
+
+  <footer class="post-footer">
+    <span>♥ {{ publicacion.likes.length }} Me gusta</span>
+  </footer>
+</article>

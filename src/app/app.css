@@ -7,3 +7,7 @@
 router-outlet {
   display: none;
 }
+
+app-footer {
+  margin-top: auto;
+}
