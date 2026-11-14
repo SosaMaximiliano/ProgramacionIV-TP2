@@ -27,6 +27,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'publicaciones/nueva',
+    loadComponent: () =>
+      import('./components/publicacion-form/publicacion-form.component').then(
+        (m) => m.PublicacionFormComponent,
+      ),
+  },
+  {
     path: 'mi-perfil',
     loadComponent: () =>
       import('./components/mi-perfil/mi-perfil.component').then((m) => m.MiPerfilComponent),

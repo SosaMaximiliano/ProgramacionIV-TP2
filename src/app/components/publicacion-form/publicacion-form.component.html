@@ -1,0 +1,70 @@
+<main class="create-post-page">
+  <section class="create-post-card">
+    <header class="create-post-heading">
+      <p class="eyebrow">Compartí con la comunidad</p>
+      <h1>Nueva publicación</h1>
+      <p>Contá qué querés compartir. La imagen es opcional.</p>
+    </header>
+
+    <form class="post-form" [formGroup]="formPublicacion" (ngSubmit)="subirPublicacion()">
+      <div class="field-group">
+        <label for="titulo">Título</label>
+        <input
+          id="titulo"
+          type="text"
+          formControlName="titulo"
+          maxlength="100"
+          placeholder="Dale un título a tu publicación"
+        />
+        @if (
+          formPublicacion.get('titulo')?.touched &&
+          formPublicacion.get('titulo')?.hasError('required')
+        ) {
+          <small class="field-error">El título es obligatorio.</small>
+        }
+      </div>
+
+      <div class="field-group">
+        <label for="descripcion">Descripción</label>
+        <textarea
+          id="descripcion"
+          formControlName="descripcion"
+          maxlength="2000"
+          rows="6"
+          placeholder="¿Qué querés contar?"
+        ></textarea>
+        @if (
+          formPublicacion.get('descripcion')?.touched &&
+          formPublicacion.get('descripcion')?.hasError('required')
+        ) {
+          <small class="field-error">La descripción es obligatoria.</small>
+        }
+      </div>
+
+      <div class="field-group">
+        <label for="imagenPublicacion">Imagen <span>(opcional)</span></label>
+        <input
+          id="imagenPublicacion"
+          class="file-input"
+          type="file"
+          accept="image/*"
+          (change)="seleccionarImagen($event)"
+        />
+        <small class="field-help">
+          @if (imagenPublicacion) {
+            Archivo seleccionado: {{ imagenPublicacion.name }}
+          } @else {
+            Elegí una imagen para acompañar tu publicación.
+          }
+        </small>
+      </div>
+
+      <div class="form-actions">
+        <button class="publish-button" type="submit" [disabled]="formPublicacion.invalid">
+          Publicar
+        </button>
+        <button class="cancel-button" type="button" routerLink="/publicaciones">Cancelar</button>
+      </div>
+    </form>
+  </section>
+</main>

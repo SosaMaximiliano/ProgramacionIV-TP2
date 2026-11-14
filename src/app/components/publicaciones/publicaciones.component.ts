@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { PublicacionCard } from '../publicacion-card/publicacion-card';
+import { PublicacionCard } from '../publicacion-card/publicacion-card.component';
 import { PublicacionesService } from '../../services/publicaciones.service';
 import { PublicacionRespuesta } from '../../modelos/publicacion.model';
 @Component({
@@ -52,5 +52,21 @@ export class PublicacionesComponent {
 
     this.offset.update((valor) => valor + this.limit);
     await this.cargarPagina();
+  }
+
+  async cambiarLike(idPost: string) {
+    const actualizada = await this.publicacionesService.meGustaToggle(idPost);
+
+    if (!actualizada) return;
+
+    this.publicaciones.update((lista) =>
+      lista.map((post) => (post._id === idPost ? actualizada : post)),
+    );
+  }
+
+  async eliminarPublicacion(idPost: string) {
+    await this.publicacionesService.eliminarPublicacion(idPost);
+
+    this.publicaciones.update((lista) => lista.filter((post) => post._id !== idPost));
   }
 }

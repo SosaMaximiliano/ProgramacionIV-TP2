@@ -9,7 +9,7 @@
       <a class="nav-link" routerLink="/inicio">Inicio</a>
       @if (usuarioService.usuarioActual()) {
         <a class="nav-link" routerLink="/publicaciones">Publicaciones</a>
-        <a class="nav-link" routerLink="/mi-perfil">Mi perfil</a>
+        <a class="nav-link" routerLink="/publicaciones/nueva">Nueva</a>
       } @else {
         <a class="nav-link" routerLink="/login">Ingresar</a>
         <a class="nav-link nav-cta" routerLink="/registro">Crear cuenta</a>
@@ -18,10 +18,10 @@
 
     @if (usuarioService.usuarioActual(); as usuario) {
       <div class="nav-account">
-        <span class="nav-user">{{ usuario.usuario }}</span>
-        <button class="nav-link nav-logout" type="button" (click)="cerrarSesion()">
-          Salir
-        </button>
+        <a class="nav-link" routerLink="/mi-perfil"
+          ><span class="nav-user">{{ usuario.usuario }}</span></a
+        >
+        <button class="nav-link nav-logout" type="button" (click)="cerrarSesion()">Salir</button>
       </div>
     }
   </div>

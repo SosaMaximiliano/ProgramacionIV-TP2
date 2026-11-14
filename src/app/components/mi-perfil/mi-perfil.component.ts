@@ -1,18 +1,28 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { UsuarioService } from '../../services/usuario.service';
-import { UsuarioRespuesta } from '../../modelos/usuario.model';
+import { PublicacionesService } from '../../services/publicaciones.service';
+import { PublicacionRespuesta } from '../../modelos/publicacion.model';
+import { PublicacionCard } from '../publicacion-card/publicacion-card.component';
 
 @Component({
-  imports: [],
+  imports: [PublicacionCard],
   selector: 'app-mi-perfil',
   styleUrl: './mi-perfil.component.css',
   templateUrl: './mi-perfil.component.html',
 })
 export class MiPerfilComponent {
-  usuarioActual: UsuarioRespuesta | null = null;
+  publicaciones = signal<PublicacionRespuesta[]>([]);
+  constructor(
+    public usuarioService: UsuarioService,
+    private publicacionesService: PublicacionesService,
+  ) {}
 
-  constructor(usuarioService: UsuarioService) {
-    this.usuarioActual = usuarioService.usuarioActual();
+  async ngOnInit(): Promise<void> {
+    this.publicaciones.set(
+      await this.publicacionesService.traerUltimasPorUsuario(
+        this.usuarioService.usuarioActual()?._id ?? '',
+      ),
+    );
   }
 
   calcularEdad(fechaNacimiento: string): number {

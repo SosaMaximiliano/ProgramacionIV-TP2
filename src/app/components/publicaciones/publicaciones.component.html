@@ -16,7 +16,11 @@
   </header>
 
   @for (post of publicaciones(); track post._id) {
-    <app-publicacion-card [publicacion]="post" />
+    <app-publicacion-card
+      [publicacion]="post"
+      (eventoPost)="cambiarLike($event)"
+      (eventoEliminar)="eliminarPublicacion($event)"
+    />
   } @empty {
     <p class="empty-state">Todavía no hay publicaciones.</p>
   }

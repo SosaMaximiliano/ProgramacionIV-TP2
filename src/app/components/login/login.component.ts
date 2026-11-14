@@ -34,7 +34,7 @@ export class LoginComponent {
       this.usuarioEncontrado = respuesta.usuario;
       this.usuarioService.usuarioActual.set(respuesta.usuario);
       sessionStorage.setItem('access_token', respuesta.access_token);
-      await this.router.navigate(['/inicio']);
+      await this.router.navigate(['/publicaciones']);
     } catch (error) {
       this.mensaje.set(
         error instanceof HttpErrorResponse && error.status === 401

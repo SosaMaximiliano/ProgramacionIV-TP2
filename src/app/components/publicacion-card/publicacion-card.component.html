@@ -1,11 +1,7 @@
 <article class="post-card">
   <header class="post-header">
     @if (publicacion.usuario.imagenPerfil; as foto) {
-      <img
-        class="post-avatar"
-        [src]="'http://localhost:3000/uploads/' + foto"
-        alt="Foto de {{ publicacion.usuario.usuario }}"
-      />
+      <img class="post-avatar" [src]="foto" alt="Foto de {{ publicacion.usuario.usuario }}" />
     } @else {
       <div class="post-avatar avatar-placeholder">
         {{ publicacion.usuario.usuario.charAt(0).toUpperCase() }}
@@ -23,15 +19,19 @@
     <p>{{ publicacion.descripcion }}</p>
 
     @if (publicacion.imagenPublicacion; as imagen) {
-      <img
-        class="post-image"
-        [src]="'http://localhost:3000/uploads/posts/' + imagen"
-        alt="Imagen de la publicación"
-      />
+      <img class="post-image" [src]="imagen" alt="Imagen de la publicación" />
     }
   </div>
 
   <footer class="post-footer">
-    <span>♥ {{ publicacion.likes.length }} Me gusta</span>
+    <span>♥ {{ publicacion.likes.length }} <a (click)="emitirSeleccion()">Me gusta</a></span>
+    @if (
+      usuarioService.usuarioActual()?._id === publicacion.usuario._id ||
+      usuarioService.usuarioActual()?.perfil === 'administrador'
+    ) {
+      <button class="delete-post-button" type="button" (click)="emitirEliminar()">
+        Eliminar publicación
+      </button>
+    }
   </footer>
 </article>

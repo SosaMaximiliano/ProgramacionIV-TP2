@@ -1,27 +1,46 @@
 <main class="profile-page">
   <section class="profile-card">
     <div class="profile-avatar">
-      @if (usuarioActual?.imagenPerfil; as imagen) {
-        <img [src]="'http://localhost:3000/uploads/' + imagen" alt="Foto de perfil" />
+      @if (usuarioService.usuarioActual()?.imagenPerfil; as imagen) {
+        <img [src]="usuarioService.usuarioActual()?.imagenPerfil" alt="Foto de perfil" />
       } @else {
-        <span>{{ usuarioActual?.usuario?.charAt(0)?.toUpperCase() }}</span>
+        <span>{{ usuarioService.usuarioActual()?.usuario?.charAt(0)?.toUpperCase() }}</span>
       }
     </div>
 
     <div class="profile-heading">
       <p class="eyebrow">Tu espacio</p>
-      <h1>{{ usuarioActual?.nombre }} {{ usuarioActual?.apellido }}</h1>
-      <p class="profile-handle">@{{ usuarioActual?.usuario }}</p>
+      <h1>
+        {{ usuarioService.usuarioActual()?.nombre }} {{ usuarioService.usuarioActual()?.apellido }}
+      </h1>
+      <p class="profile-handle">@{{ usuarioService.usuarioActual()?.usuario }}</p>
     </div>
 
     <div class="profile-details">
-      <div><span>Correo</span><strong>{{ usuarioActual?.correo }}</strong></div>
-      @if (usuarioActual) {
-        <div><span>Edad</span><strong>{{ calcularEdad(usuarioActual.fechaNacimiento) }} años</strong></div>
+      <div>
+        <span>Correo</span><strong>{{ usuarioService.usuarioActual()?.correo }}</strong>
+      </div>
+      @if (usuarioService.usuarioActual()) {
+        <div>
+          <span>Edad</span
+          ><strong
+            >{{ calcularEdad(usuarioService.usuarioActual()?.fechaNacimiento ?? '') }} años</strong
+          >
+        </div>
       }
-      @if (usuarioActual?.descripcion) {
-        <div class="profile-bio"><span>Sobre mí</span><strong>{{ usuarioActual?.descripcion }}</strong></div>
+      @if (usuarioService.usuarioActual()?.descripcion) {
+        <div class="profile-bio">
+          <span>Sobre mí</span><strong>{{ usuarioService.usuarioActual()?.descripcion }}</strong>
+        </div>
       }
     </div>
+  </section>
+
+  <section class="profile-post-card">
+    @for (post of publicaciones(); track $index) {
+      <app-publicacion-card [publicacion]="post" />
+    } @empty {
+      <p>No hay publicaciones.</p>
+    }
   </section>
 </main>
