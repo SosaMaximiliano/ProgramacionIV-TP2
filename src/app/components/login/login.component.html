@@ -14,7 +14,13 @@
         [(ngModel)]="identificador"
         placeholder="Tu nombre de usuario o correo"
         required
+        minlength="4"
       />
+      @if (identificadorInput.invalid && (identificadorInput.touched || identificadorInput.dirty)) {
+        @if (identificadorInput.errors?.['minlength']) {
+          <small>El identificador debe tener como mínimo 4 caracteres.</small>
+        }
+      }
 
       <label for="login-password">Contraseña</label>
       <input
@@ -26,13 +32,18 @@
         placeholder="Tu contraseña"
         required
         minlength="8"
+        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$"
       />
 
-      @if (
-        (identificadorInput.invalid && (identificadorInput.touched || identificadorInput.dirty)) ||
-        (passwordInput.invalid && (passwordInput.touched || passwordInput.dirty))
-      ) {
-        <small class="field-error">Ingresá un identificador y contraseña válidos.</small>
+      @if (passwordInput.invalid && (passwordInput.touched || passwordInput.dirty)) {
+        @if (passwordInput.errors?.['minlength']) {
+          <small class="field-error">La contraseña debe tener al menos ocho caracteres.</small>
+        }
+        @if (passwordInput.errors?.['pattern']) {
+          <small class="field-error"
+            >La contraseña debe tener al menos una mayúscula, una minúscula y un número.</small
+          >
+        }
       }
 
       @if (mensaje()) {

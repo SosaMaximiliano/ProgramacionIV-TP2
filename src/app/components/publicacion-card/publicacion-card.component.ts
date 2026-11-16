@@ -21,10 +21,10 @@ export class PublicacionCard {
 
   @Input() publicacion!: PublicacionRespuesta;
 
-  @Output() eventoPost = new EventEmitter<string>();
+  @Output() eventoLike = new EventEmitter<string>();
 
-  emitirSeleccion() {
-    this.eventoPost.emit(this.publicacion._id);
+  emitirLike() {
+    this.eventoLike.emit(this.publicacion._id);
   }
 
   @Output() eventoEliminar = new EventEmitter<string>();

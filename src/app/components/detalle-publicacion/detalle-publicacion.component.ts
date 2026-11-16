@@ -78,4 +78,10 @@ export class DetallePublicacionComponent {
       this.cargandoComentarios.set(false);
     }
   }
+
+  async cambiarLike(idPost: string) {
+    const actualizada = await this.publicacionesService.meGustaToggle(idPost);
+    if (!actualizada) return;
+    this.publicacion.set(actualizada);
+  }
 }

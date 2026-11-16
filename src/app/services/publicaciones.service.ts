@@ -4,11 +4,13 @@ import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { PublicacionRespuesta } from '../modelos/publicacion.model';
 import { AuthService } from './auth.service';
-
+import { API_URL } from '../api.config';
 @Service()
 export class PublicacionesService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:3000/publicaciones';
+  // private apiUrl = 'http://localhost:3000/publicaciones';
+  private apiUrl = `${API_URL}/publicaciones`;
+
   authService = inject(AuthService);
   usuarioService = inject(UsuarioService);
 

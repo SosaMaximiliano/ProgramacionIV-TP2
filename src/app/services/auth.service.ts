@@ -3,12 +3,14 @@ import { LoginRespuesta, UsuarioRespuesta } from '../modelos/usuario.model';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { UsuarioService } from './usuario.service';
+import { API_URL } from '../api.config';
 
 @Service()
 export class AuthService {
   private usuarioService = inject(UsuarioService);
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:3000/auth';
+  // private apiUrl = 'http://localhost:3000/auth';
+  private apiUrl = `${API_URL}/auth`;
 
   async registrar(datos: FormData) {
     //El método envía a /auth/registro/ del backend los datos del

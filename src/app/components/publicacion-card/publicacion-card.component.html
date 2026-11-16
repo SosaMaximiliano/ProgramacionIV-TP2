@@ -24,7 +24,7 @@
   </div>
 
   <footer class="post-footer">
-    <span>♥ {{ publicacion.likes.length }} <a (click)="emitirSeleccion()">Me gusta</a></span>
+    <span>♥ {{ publicacion.likes.length }} <a (click)="emitirLike()">Me gusta</a></span>
     @if (
       usuarioService.usuarioActual()?._id === publicacion.usuario._id ||
       usuarioService.usuarioActual()?.perfil === 'administrador'

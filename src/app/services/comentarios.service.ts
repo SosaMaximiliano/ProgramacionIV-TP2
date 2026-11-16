@@ -3,11 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { ComentarioRespuesta } from '../modelos/comentario.model';
 import { AuthService } from './auth.service';
+import { API_URL } from '../api.config';
 
 @Service()
 export class ComentariosService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:3000/publicaciones';
+  // private apiUrl = 'http://localhost:3000/publicaciones';
+  private apiUrl = `${API_URL}/publicaciones`;
   private authService = inject(AuthService);
 
   async traerPorPublicacion(idPost: string) {

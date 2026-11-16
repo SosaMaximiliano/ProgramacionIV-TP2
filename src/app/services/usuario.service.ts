@@ -2,11 +2,13 @@ import { inject, Service, signal } from '@angular/core';
 import { UsuarioRespuesta } from '../modelos/usuario.model';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
+import { API_URL } from '../api.config';
 
 @Service()
 export class UsuarioService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:3000/usuario';
+  // private apiUrl = 'http://localhost:3000/usuario';
+  private apiUrl = `${API_URL}/usuario`;
   usuarioActual = signal<UsuarioRespuesta | null>(null);
 
   async obtenerUsuarioActual(): Promise<UsuarioRespuesta | null> {
