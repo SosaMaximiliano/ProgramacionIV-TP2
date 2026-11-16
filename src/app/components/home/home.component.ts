@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { UsuarioService } from '../../services/usuario.service';
 
 @Component({
   imports: [RouterLink],
@@ -7,4 +8,6 @@ import { RouterLink } from '@angular/router';
   styleUrl: './home.component.css',
   templateUrl: './home.component.html',
 })
-export class HomeComponent {}
+export class HomeComponent {
+  constructor(private usuarioService: UsuarioService) {}
+}

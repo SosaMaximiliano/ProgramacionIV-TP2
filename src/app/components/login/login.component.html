@@ -5,14 +5,14 @@
     <p class="auth-intro">Volvé a encontrarte con tu comunidad.</p>
 
     <form class="auth-form" #formularioLogin="ngForm" (ngSubmit)="iniciarSesion(formularioLogin)">
-      <label for="login-usuario">Usuario</label>
+      <label for="login-identificador">Usuario o correo</label>
       <input
-        #usuarioInput="ngModel"
-        id="login-usuario"
+        #identificadorInput="ngModel"
+        id="login-identificador"
         type="text"
-        name="usuario"
-        [(ngModel)]="usuario"
-        placeholder="Tu nombre de usuario"
+        name="identificador"
+        [(ngModel)]="identificador"
+        placeholder="Tu nombre de usuario o correo"
         required
       />
 
@@ -29,10 +29,10 @@
       />
 
       @if (
-        (usuarioInput.invalid && (usuarioInput.touched || usuarioInput.dirty)) ||
+        (identificadorInput.invalid && (identificadorInput.touched || identificadorInput.dirty)) ||
         (passwordInput.invalid && (passwordInput.touched || passwordInput.dirty))
       ) {
-        <small class="field-error">Ingresá un usuario y contraseña válidos.</small>
+        <small class="field-error">Ingresá un identificador y contraseña válidos.</small>
       }
 
       @if (mensaje()) {

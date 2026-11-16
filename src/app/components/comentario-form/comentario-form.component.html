@@ -1,0 +1,18 @@
+<section class="comment-form-card">
+  <h3>Dejá tu comentario</h3>
+  <form #formComentario="ngForm" (ngSubmit)="publicar(formComentario)">
+    <textarea
+      name="comentario"
+      [(ngModel)]="comentario"
+      maxlength="1000"
+      required
+      placeholder="Escribí algo..."
+      aria-label="Escribí tu comentario"
+    ></textarea>
+
+    <div class="form-footer">
+      <small>Máximo 1000 caracteres</small>
+      <button type="submit" [disabled]="formComentario.invalid">Publicar comentario</button>
+    </div>
+  </form>
+</section>

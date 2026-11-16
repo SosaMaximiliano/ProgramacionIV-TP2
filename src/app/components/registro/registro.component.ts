@@ -1,7 +1,8 @@
-import { UsuarioService } from '../../services/usuario.service';
+import { passwordsIgualesValidator } from './../../validators/custom.validators';
 import { Component, inject, signal } from '@angular/core';
 import { RouterLink, Router } from '@angular/router';
-import { Usuario } from '../../modelos/usuario.model';
+import { AuthService } from '../../services/auth.service';
+import { UsuarioService } from '../../services/usuario.service';
 import {
   ReactiveFormsModule,
   FormBuilder,
@@ -23,48 +24,55 @@ export class RegistroComponent {
   imagenPerfil: File | null = null;
 
   constructor(
+    private authService: AuthService,
     private usuarioService: UsuarioService,
     private router: Router,
   ) {}
 
-  formRegistro: FormGroup = this.fb.group({
-    nombre: [
-      '',
-      [
-        Validators.required,
-        Validators.minLength(2),
-        Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/),
+  //DISEÑO DEL FORMULARIO DE REGISTRO
+  formRegistro: FormGroup = this.fb.group(
+    {
+      nombre: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(2),
+          Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/),
+        ],
       ],
-    ],
-    apellido: [
-      '',
-      [
-        Validators.required,
-        Validators.minLength(2),
-        Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/),
+      apellido: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(2),
+          Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/),
+        ],
       ],
-    ],
-    correo: ['', [Validators.required, Validators.email]],
-    fechaNacimiento: ['', [Validators.required]],
-    usuario: ['', [Validators.required, Validators.minLength(4)]],
-    password: [
-      '',
-      [
-        Validators.required,
-        Validators.minLength(8),
-        Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/),
+      correo: ['', [Validators.required, Validators.email]],
+      fechaNacimiento: ['', [Validators.required]],
+      usuario: ['', [Validators.required, Validators.minLength(4)]],
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/),
+        ],
       ],
-    ],
-    repetirPassword: [
-      '',
-      [
-        Validators.required,
-        Validators.minLength(8),
-        Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/),
+      repetirPassword: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/),
+        ],
       ],
-    ],
-    descripcion: ['', [Validators.maxLength(40)]],
-  });
+      descripcion: ['', [Validators.maxLength(40)]],
+    },
+    {
+      validators: [passwordsIgualesValidator],
+    },
+  );
 
   async registrarUsuario() {
     if (this.formRegistro.invalid) {
@@ -73,7 +81,10 @@ export class RegistroComponent {
     }
 
     try {
+      //Guardo el formulario en una variable
       const formulario = this.formRegistro.getRawValue();
+
+      //Instancio un FormData para guardar los valores del formulario
       const datos = new FormData();
       datos.append('nombre', formulario.nombre);
       datos.append('apellido', formulario.apellido);
@@ -86,10 +97,17 @@ export class RegistroComponent {
       if (this.imagenPerfil) {
         datos.append('imagenPerfil', this.imagenPerfil);
       }
-      const respuesta = await this.usuarioService.registrar(datos);
 
+      //Acá envío la variable de tipo FormData al backend por medio del método del servicio.
+      //El back devuelve la respuesta como {usuario, access_token}.
+      const respuesta = await this.authService.registrar(datos);
+
+      //Guardo el token en sessionStorage
       sessionStorage.setItem('access_token', respuesta.access_token);
-      this.usuarioService.usuarioActual.set(respuesta.usuario);
+
+      //Guardo el id de usuario actual
+      sessionStorage.setItem('usuario', respuesta.usuario._id);
+      await this.usuarioService.obtenerUsuarioActual();
 
       await this.router.navigate(['/publicaciones']);
     } catch (error) {

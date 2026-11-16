@@ -36,11 +36,21 @@
     </div>
   </section>
 
-  <section class="profile-post-card">
-    @for (post of publicaciones(); track $index) {
-      <app-publicacion-card [publicacion]="post" />
-    } @empty {
-      <p>No hay publicaciones.</p>
-    }
+  <section>
+    <div class="profile-post-card">
+      @for (post of publicaciones(); track $index) {
+        <app-publicacion-card [publicacion]="post" />
+
+        <div>
+          @for (comentario of post.comentarios; track $index) {
+            <app-comentario-card [comentario]="comentario" />
+          } @empty {
+            <p>Todavía no hay comentarios.</p>
+          }
+        </div>
+      } @empty {
+        <p>No hay publicaciones.</p>
+      }
+    </div>
   </section>
 </main>

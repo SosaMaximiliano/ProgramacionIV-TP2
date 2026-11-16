@@ -1,4 +1,5 @@
-import { Routes } from '@angular/router';
+import { Routes, CanActivate } from '@angular/router';
+import { authGuard } from './guards/auth-guard';
 
 export const routes: Routes = [
   {
@@ -21,22 +22,15 @@ export const routes: Routes = [
   },
   {
     path: 'publicaciones',
-    loadComponent: () =>
-      import('./components/publicaciones/publicaciones.component').then(
-        (m) => m.PublicacionesComponent,
-      ),
-  },
-  {
-    path: 'publicaciones/nueva',
-    loadComponent: () =>
-      import('./components/publicacion-form/publicacion-form.component').then(
-        (m) => m.PublicacionFormComponent,
-      ),
+    loadChildren: () =>
+      import('./components/publicaciones/publicaciones.routes').then((m) => m.PUBLICACIONES_ROUTES),
+    canActivate: [authGuard],
   },
   {
     path: 'mi-perfil',
     loadComponent: () =>
       import('./components/mi-perfil/mi-perfil.component').then((m) => m.MiPerfilComponent),
+    canActivate: [authGuard],
   },
   {
     path: 'error',

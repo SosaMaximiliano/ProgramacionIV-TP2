@@ -1,10 +1,10 @@
 import { Component, signal } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { UsuarioService } from '../../services/usuario.service';
 import { UsuarioRespuesta } from '../../modelos/usuario.model';
 import { HttpErrorResponse } from '@angular/common/http';
-
+import { AuthService } from '../../services/auth.service';
+import { UsuarioService } from '../../services/usuario.service';
 @Component({
   imports: [FormsModule, RouterLink],
   selector: 'app-login',
@@ -12,16 +12,18 @@ import { HttpErrorResponse } from '@angular/common/http';
   templateUrl: './login.component.html',
 })
 export class LoginComponent {
-  usuario = '';
+  identificador = '';
   password = '';
   mensaje = signal('');
   usuarioEncontrado: UsuarioRespuesta | null = null;
 
   constructor(
-    private usuarioService: UsuarioService,
+    private authService: AuthService,
     private router: Router,
+    private usuarioService: UsuarioService,
   ) {}
 
+  //Para el login uso FormsModule en lugar de ReactiveForms y le paso el formulario por parámetro.
   async iniciarSesion(formulario: NgForm) {
     if (formulario.invalid) {
       formulario.control.markAllAsTouched();
@@ -30,12 +32,18 @@ export class LoginComponent {
 
     try {
       this.mensaje.set('ingresando...');
-      const respuesta = await this.usuarioService.login(this.usuario, this.password);
+
+      //Llamó al login del servicio
+      const respuesta = await this.authService.login(this.identificador, this.password);
       this.usuarioEncontrado = respuesta.usuario;
-      this.usuarioService.usuarioActual.set(respuesta.usuario);
+      sessionStorage.setItem('usuario', respuesta.usuario._id);
       sessionStorage.setItem('access_token', respuesta.access_token);
-      await this.router.navigate(['/publicaciones']);
+      await this.usuarioService.obtenerUsuarioActual();
+
+      await this.router.navigate(['/inicio']);
     } catch (error) {
+      console.log(error);
+
       this.mensaje.set(
         error instanceof HttpErrorResponse && error.status === 401
           ? 'Credenciales incorrectas.'

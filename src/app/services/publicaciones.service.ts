@@ -1,13 +1,15 @@
+import { UsuarioService } from './usuario.service';
 import { Service, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { PublicacionRespuesta } from '../modelos/publicacion.model';
-import { UsuarioService } from './usuario.service';
+import { AuthService } from './auth.service';
 
 @Service()
 export class PublicacionesService {
   private http = inject(HttpClient);
   private apiUrl = 'http://localhost:3000/publicaciones';
+  authService = inject(AuthService);
   usuarioService = inject(UsuarioService);
 
   async traerTodas() {
@@ -17,7 +19,7 @@ export class PublicacionesService {
   async traerPorId(id: string) {
     return await firstValueFrom(
       this.http.get<PublicacionRespuesta>(`${this.apiUrl}/${id}`, {
-        headers: this.obtenerHeadersToken(),
+        headers: this.authService.obtenerHeadersToken(),
       }),
     );
   }
@@ -26,7 +28,7 @@ export class PublicacionesService {
     return await firstValueFrom(
       this.http.get<PublicacionRespuesta[]>(this.apiUrl, {
         params: { orden, offset, limit },
-        headers: this.obtenerHeadersToken(),
+        headers: this.authService.obtenerHeadersToken(),
       }),
     );
   }
@@ -51,7 +53,7 @@ export class PublicacionesService {
       this.http.post<PublicacionRespuesta>(
         `${this.apiUrl}/${idPost}/likes`,
         {},
-        { headers: this.obtenerHeadersToken() },
+        { headers: this.authService.obtenerHeadersToken() },
       ),
     );
   }
@@ -59,23 +61,15 @@ export class PublicacionesService {
   async quitarLike(idPost: string) {
     return await firstValueFrom(
       this.http.delete<PublicacionRespuesta>(`${this.apiUrl}/${idPost}/likes`, {
-        headers: this.obtenerHeadersToken(),
+        headers: this.authService.obtenerHeadersToken(),
       }),
     );
-  }
-
-  private obtenerHeadersToken() {
-    const token = sessionStorage.getItem('access_token');
-
-    return {
-      Authorization: `Bearer ${token}`,
-    };
   }
 
   async eliminarPublicacion(idPost: string) {
     return await firstValueFrom(
       this.http.delete<PublicacionRespuesta>(`${this.apiUrl}/${idPost}`, {
-        headers: this.obtenerHeadersToken(),
+        headers: this.authService.obtenerHeadersToken(),
       }),
     );
   }
@@ -83,7 +77,7 @@ export class PublicacionesService {
   async crearPublicacion(datos: FormData) {
     return await firstValueFrom(
       this.http.post<PublicacionRespuesta>(`${this.apiUrl}/nueva`, datos, {
-        headers: this.obtenerHeadersToken(),
+        headers: this.authService.obtenerHeadersToken(),
       }),
     );
   }
@@ -91,7 +85,7 @@ export class PublicacionesService {
   async traerUltimasPorUsuario(idUsuario: string) {
     return await firstValueFrom(
       this.http.get<PublicacionRespuesta[]>(`${this.apiUrl}/usuario/${idUsuario}/ultimas`, {
-        headers: this.obtenerHeadersToken(),
+        headers: this.authService.obtenerHeadersToken(),
       }),
     );
   }

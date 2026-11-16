@@ -1,0 +1,20 @@
+<article class="comment-card">
+  @if (comentario.usuario.imagenPerfil; as foto) {
+    <img class="comment-avatar" [src]="foto" alt="Foto de {{ comentario.usuario.usuario }}" />
+  } @else {
+    <div class="comment-avatar avatar-placeholder" aria-hidden="true">
+      {{ comentario.usuario.usuario.charAt(0).toUpperCase() }}
+    </div>
+  }
+
+  <div class="comment-body">
+    <header class="comment-header">
+      <strong>{{ comentario.usuario.usuario }}</strong>
+      <time>{{ comentario.fecha | date: 'd/M/yy, HH:mm' }}</time>
+    </header>
+    <p>{{ comentario.comentario }}</p>
+    @if (comentario.modificado) {
+      <small class="edited-label">Editado</small>
+    }
+  </div>
+</article>

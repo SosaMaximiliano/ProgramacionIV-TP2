@@ -1,8 +1,7 @@
 import { inject, Service, signal } from '@angular/core';
-import { LoginRespuesta, Usuario, UsuarioRespuesta } from '../modelos/usuario.model';
+import { UsuarioRespuesta } from '../modelos/usuario.model';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
-import { Router } from '@angular/router';
 
 @Service()
 export class UsuarioService {
@@ -10,17 +9,12 @@ export class UsuarioService {
   private apiUrl = 'http://localhost:3000/usuario';
   usuarioActual = signal<UsuarioRespuesta | null>(null);
 
-  async registrar(datos: FormData) {
-    return await firstValueFrom(this.http.post<LoginRespuesta>(this.apiUrl + '/registro', datos));
-  }
-
-  async login(usuario: string, password: string) {
-    return await firstValueFrom(
-      this.http.post<LoginRespuesta>(this.apiUrl + '/login', {
-        usuario: usuario,
-        password: password,
-      }),
+  async obtenerUsuarioActual(): Promise<UsuarioRespuesta | null> {
+    const usuario = sessionStorage.getItem('usuario');
+    this.usuarioActual.set(
+      await firstValueFrom(this.http.get<UsuarioRespuesta>(this.apiUrl + `/${usuario}`)),
     );
+    return this.usuarioActual();
   }
 
   logout() {

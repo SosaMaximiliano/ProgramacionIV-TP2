@@ -1,0 +1,27 @@
+<main class="publication-detail">
+  @if (cargandoPost()) {
+    <p>Cargando publicación...</p>
+  } @else if (errorPost()) {
+    <p>{{ errorPost() }}</p>
+  } @else if (publicacion(); as post) {
+    <section>
+      <app-publicacion-card [publicacion]="post" />
+    </section>
+  }
+
+  @if (cargandoComentarios()) {
+    <p>Cargando comentarios...</p>
+  } @else if (errorComentario()) {
+    <p>{{ errorComentario() }}</p>
+  } @else {
+    <section>
+      <h2>Comentarios</h2>
+      <app-comentario-form (comentarioEnviado)="enviarComentario($event)" />
+      @for (comentario of comentarios(); track $index) {
+        <app-comentario-card [comentario]="comentario" />
+      } @empty {
+        <p>Todavía no hay comentarios.</p>
+      }
+    </section>
+  }
+</main>

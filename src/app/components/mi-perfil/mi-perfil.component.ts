@@ -1,28 +1,46 @@
 import { Component, signal } from '@angular/core';
-import { UsuarioService } from '../../services/usuario.service';
 import { PublicacionesService } from '../../services/publicaciones.service';
 import { PublicacionRespuesta } from '../../modelos/publicacion.model';
 import { PublicacionCard } from '../publicacion-card/publicacion-card.component';
+import { ComentariosService } from '../../services/comentarios.service';
+import { ComentarioCardComponent } from '../comentario-card/comentario-card.component';
+import { ComentarioRespuesta } from '../../modelos/comentario.model';
+import { AuthService } from '../../services/auth.service';
+import { UsuarioService } from '../../services/usuario.service';
+
+type PublicacionConComentarios = PublicacionRespuesta & {
+  comentarios: ComentarioRespuesta[];
+};
 
 @Component({
-  imports: [PublicacionCard],
+  imports: [PublicacionCard, ComentarioCardComponent],
   selector: 'app-mi-perfil',
   styleUrl: './mi-perfil.component.css',
   templateUrl: './mi-perfil.component.html',
 })
 export class MiPerfilComponent {
-  publicaciones = signal<PublicacionRespuesta[]>([]);
+  publicaciones = signal<PublicacionConComentarios[]>([]);
+
   constructor(
-    public usuarioService: UsuarioService,
+    public authService: AuthService,
     private publicacionesService: PublicacionesService,
+    private comentarioService: ComentariosService,
+    private usuarioService: UsuarioService,
   ) {}
 
   async ngOnInit(): Promise<void> {
-    this.publicaciones.set(
-      await this.publicacionesService.traerUltimasPorUsuario(
-        this.usuarioService.usuarioActual()?._id ?? '',
-      ),
+    const publicaciones = await this.publicacionesService.traerUltimasPorUsuario(
+      this.usuarioService.usuarioActual()?._id ?? '',
     );
+
+    const publicacionesConComentarios = await Promise.all(
+      publicaciones.map(async (post) => ({
+        ...post,
+        comentarios: await this.comentarioService.traerPorPublicacion(post._id),
+      })),
+    );
+
+    this.publicaciones.set(publicacionesConComentarios);
   }
 
   calcularEdad(fechaNacimiento: string): number {

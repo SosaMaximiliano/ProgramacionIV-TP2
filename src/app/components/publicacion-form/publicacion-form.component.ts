@@ -7,7 +7,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { RouterLink, Router } from '@angular/router';
-import { UsuarioService } from '../../services/usuario.service';
 import { PublicacionesService } from '../../services/publicaciones.service';
 
 @Component({
@@ -21,7 +20,6 @@ export class PublicacionFormComponent {
   imagenPublicacion: File | null = null;
 
   constructor(
-    private usuarioService: UsuarioService,
     private publicacionesService: PublicacionesService,
     private router: Router,
   ) {}
