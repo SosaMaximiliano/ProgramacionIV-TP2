@@ -7,6 +7,7 @@ import { ComentarioCardComponent } from '../comentario-card/comentario-card.comp
 import { ComentarioFormComponent } from '../comentario-form/comentario-form.component';
 import { ComentariosService } from '../../services/comentarios.service';
 import { ComentarioRespuesta } from '../../modelos/comentario.model';
+import { Router } from '@angular/router';
 
 @Component({
   imports: [PublicacionCard, ComentarioCardComponent, ComentarioFormComponent],
@@ -24,11 +25,17 @@ export class DetallePublicacionComponent {
   errorComentario = signal('');
   idPublicacion = '';
   comentarios = signal<ComentarioRespuesta[] | []>([]);
+  offset = signal(0);
+  readonly limit = 10;
+  hayMas = signal(false);
+  mensaje = '';
+  cargandoMas = signal(false);
 
   constructor(
     private route: ActivatedRoute,
     private publicacionesService: PublicacionesService,
     private comentarioService: ComentariosService,
+    private router: Router,
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -66,16 +73,35 @@ export class DetallePublicacionComponent {
     }
   }
 
-  private async cargarComentarios(idPost: string) {
-    this.cargandoComentarios.set(true);
+  private async cargarComentarios(idPost: string, agregar = false) {
+    if (agregar) {
+      this.cargandoMas.set(true);
+    } else {
+      this.cargandoComentarios.set(true);
+    }
+
     try {
-      const comentarios = await this.comentarioService.traerPorPublicacion(idPost);
-      this.comentarios.set(comentarios);
+      const pagina = await this.comentarioService.traerPorPublicacion(
+        idPost,
+        this.offset(),
+        this.limit + 1,
+      );
+
+      this.hayMas.set(pagina.length > this.limit);
+      const paginaVisible = pagina.slice(0, this.limit);
+
+      this.comentarios.update((actuales) =>
+        agregar ? [...actuales, ...paginaVisible] : paginaVisible,
+      );
     } catch (error) {
       console.log(error);
       this.errorComentario.set('No se pudieron cargar los comentarios.');
     } finally {
-      this.cargandoComentarios.set(false);
+      if (agregar) {
+        this.cargandoMas.set(false);
+      } else {
+        this.cargandoComentarios.set(false);
+      }
     }
   }
 
@@ -83,5 +109,17 @@ export class DetallePublicacionComponent {
     const actualizada = await this.publicacionesService.meGustaToggle(idPost);
     if (!actualizada) return;
     this.publicacion.set(actualizada);
+  }
+
+  async eliminarPublicacion(idPost: string) {
+    await this.publicacionesService.eliminarPublicacion(idPost);
+    this.router.navigateByUrl('/publicaciones');
+  }
+
+  async cargarMas() {
+    if (!this.hayMas() || this.cargandoMas()) return;
+
+    this.offset.update((valor) => valor + this.limit);
+    await this.cargarComentarios(this.idPublicacion, true);
   }
 }

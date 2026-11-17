@@ -63,10 +63,4 @@ export class PublicacionesComponent {
       lista.map((post) => (post._id === idPost ? actualizada : post)),
     );
   }
-
-  async eliminarPublicacion(idPost: string) {
-    await this.publicacionesService.eliminarPublicacion(idPost);
-
-    this.publicaciones.update((lista) => lista.filter((post) => post._id !== idPost));
-  }
 }

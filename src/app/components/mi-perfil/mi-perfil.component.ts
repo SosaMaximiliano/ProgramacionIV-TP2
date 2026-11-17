@@ -20,6 +20,9 @@ type PublicacionConComentarios = PublicacionRespuesta & {
 })
 export class MiPerfilComponent {
   publicaciones = signal<PublicacionConComentarios[]>([]);
+  offset = signal(0);
+  readonly limit = 10;
+  hayMas = signal(false);
 
   constructor(
     public authService: AuthService,
@@ -36,7 +39,11 @@ export class MiPerfilComponent {
     const publicacionesConComentarios = await Promise.all(
       publicaciones.map(async (post) => ({
         ...post,
-        comentarios: await this.comentarioService.traerPorPublicacion(post._id),
+        comentarios: await this.comentarioService.traerPorPublicacion(
+          post._id,
+          this.offset(),
+          this.limit,
+        ),
       })),
     );
 
@@ -57,5 +64,15 @@ export class MiPerfilComponent {
     }
 
     return edad;
+  }
+
+  async cambiarLike(idPost: string) {
+    const actualizada = await this.publicacionesService.meGustaToggle(idPost);
+
+    if (!actualizada) return;
+
+    this.publicaciones.update((lista) =>
+      lista.map((post) => (post._id === idPost ? { ...post, ...actualizada } : post)),
+    );
   }
 }

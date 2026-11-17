@@ -8,7 +8,6 @@ import { API_URL } from '../api.config';
 @Service()
 export class PublicacionesService {
   private http = inject(HttpClient);
-  // private apiUrl = 'http://localhost:3000/publicaciones';
   private apiUrl = `${API_URL}/publicaciones`;
 
   authService = inject(AuthService);

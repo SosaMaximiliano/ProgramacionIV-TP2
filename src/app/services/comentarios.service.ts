@@ -8,13 +8,13 @@ import { API_URL } from '../api.config';
 @Service()
 export class ComentariosService {
   private http = inject(HttpClient);
-  // private apiUrl = 'http://localhost:3000/publicaciones';
   private apiUrl = `${API_URL}/publicaciones`;
   private authService = inject(AuthService);
 
-  async traerPorPublicacion(idPost: string) {
+  async traerPorPublicacion(idPost: string, offset: number, limit: number) {
     return await firstValueFrom(
       this.http.get<ComentarioRespuesta[]>(`${this.apiUrl}/${idPost}/comentarios`, {
+        params: { offset, limit },
         headers: this.authService.obtenerHeadersToken(),
       }),
     );

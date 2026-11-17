@@ -1,4 +1,12 @@
 <main class="home-page">
+  @if (cargando()) {
+    <div class="loading-backdrop">
+      <section class="loading-modal" role="status" aria-live="polite" aria-label="Cargando inicio">
+        <span class="loading-spinner" aria-hidden="true"></span>
+        <p>Preparando tu espacio...</p>
+      </section>
+    </div>
+  }
   <section class="hero-panel">
     <div class="hero-copy">
       <p class="eyebrow">Un espacio para compartir</p>

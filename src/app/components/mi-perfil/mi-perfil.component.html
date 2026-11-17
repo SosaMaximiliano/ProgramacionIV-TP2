@@ -39,7 +39,7 @@
   <section>
     <div class="profile-post-card">
       @for (post of publicaciones(); track $index) {
-        <app-publicacion-card [publicacion]="post" />
+        <app-publicacion-card [publicacion]="post" (eventoLike)="cambiarLike($event)" />
 
         <div>
           @for (comentario of post.comentarios; track $index) {

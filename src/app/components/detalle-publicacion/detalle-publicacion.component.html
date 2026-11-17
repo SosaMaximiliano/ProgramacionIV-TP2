@@ -5,7 +5,11 @@
     <p>{{ errorPost() }}</p>
   } @else if (publicacion(); as post) {
     <section>
-      <app-publicacion-card [publicacion]="post" (eventoLike)="cambiarLike($event)" />
+      <app-publicacion-card
+        [publicacion]="post"
+        (eventoLike)="cambiarLike($event)"
+        (eventoEliminar)="eliminarPublicacion($event)"
+      />
     </section>
   }
 
@@ -23,5 +27,16 @@
         <p>Todavía no hay comentarios.</p>
       }
     </section>
+    @if (hayMas() === true) {
+      <div>
+        <button (click)="cargarMas()" [disabled]="cargandoMas()">
+          {{ cargandoMas() ? 'Cargando...' : 'Cargar más...' }}
+        </button>
+      </div>
+    } @else {
+      <div>
+        <p>{{ mensaje }}</p>
+      </div>
+    }
   }
 </main>
