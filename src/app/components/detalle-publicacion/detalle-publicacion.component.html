@@ -4,9 +4,10 @@
   } @else if (errorPost()) {
     <p>{{ errorPost() }}</p>
   } @else if (publicacion(); as post) {
-    <section>
+    <section class="post-section">
       <app-publicacion-card
         [publicacion]="post"
+        [mostrarBotonEliminar]="true"
         (eventoLike)="cambiarLike($event)"
         (eventoEliminar)="eliminarPublicacion($event)"
       />
@@ -18,11 +19,14 @@
   } @else if (errorComentario()) {
     <p>{{ errorComentario() }}</p>
   } @else {
-    <section>
+    <section class="comments-section">
       <h2>Comentarios</h2>
       <app-comentario-form (comentarioEnviado)="enviarComentario($event)" />
       @for (comentario of comentarios(); track $index) {
-        <app-comentario-card [comentario]="comentario" />
+        <app-comentario-card
+          [comentario]="comentario"
+          (eventoEditar)="editarComentario($event.idComentario, $event.texto)"
+        />
       } @empty {
         <p>Todavía no hay comentarios.</p>
       }
@@ -39,4 +43,6 @@
       </div>
     }
   }
+
+  <a class="back-to-wall" routerLink="/publicaciones"> ← Volver al muro </a>
 </main>

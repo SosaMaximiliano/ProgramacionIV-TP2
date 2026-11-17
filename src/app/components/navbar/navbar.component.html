@@ -18,9 +18,7 @@
 
     @if (usuarioService.usuarioActual(); as usuario) {
       <div class="nav-account">
-        <a class="nav-link" routerLink="/mi-perfil"
-          ><span class="nav-user">{{ usuario.usuario }}</span></a
-        >
+        <a class="nav-link" class="nav-user" routerLink="/mi-perfil"> @{{ usuario.usuario }} </a>
         <button class="nav-link nav-logout" type="button" (click)="cerrarSesion()">Salir</button>
       </div>
     }

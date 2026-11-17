@@ -58,3 +58,64 @@
   margin-top: 0.35rem;
   font-style: italic;
 }
+
+.comment-edit {
+  display: grid;
+  gap: 0.65rem;
+  margin-top: 0.65rem;
+}
+
+.comment-edit__textarea {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 5rem;
+  resize: vertical;
+  padding: 0.75rem;
+  border: 1px solid #d6ded7;
+  border-radius: 12px;
+  background: #fff;
+  color: #352d29;
+  font: inherit;
+  line-height: 1.45;
+}
+
+.comment-edit__textarea:focus {
+  outline: 3px solid rgb(73 116 91 / 18%);
+  border-color: #6c9278;
+}
+
+.comment-edit__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.edit-button {
+  padding: 0.45rem 0.8rem;
+  border: 1px solid #d6ded7;
+  border-radius: 9px;
+  background: #f4f7f3;
+  color: #385d46;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 650;
+}
+
+.edit-button:hover {
+  background: #e8f0e8;
+}
+
+.edit-button--save {
+  border-color: #477653;
+  background: #477653;
+  color: #fff;
+}
+
+.edit-button--save:hover {
+  background: #386442;
+}
+
+.edit-button--cancel {
+  color: #625b56;
+}

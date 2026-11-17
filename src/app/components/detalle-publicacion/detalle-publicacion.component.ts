@@ -7,10 +7,10 @@ import { ComentarioCardComponent } from '../comentario-card/comentario-card.comp
 import { ComentarioFormComponent } from '../comentario-form/comentario-form.component';
 import { ComentariosService } from '../../services/comentarios.service';
 import { ComentarioRespuesta } from '../../modelos/comentario.model';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
-  imports: [PublicacionCard, ComentarioCardComponent, ComentarioFormComponent],
+  imports: [PublicacionCard, ComentarioCardComponent, ComentarioFormComponent, RouterLink],
   selector: 'app-detalle-publicacion.component',
   styleUrl: './detalle-publicacion.component.css',
   templateUrl: './detalle-publicacion.component.html',
@@ -121,5 +121,17 @@ export class DetallePublicacionComponent {
 
     this.offset.update((valor) => valor + this.limit);
     await this.cargarComentarios(this.idPublicacion, true);
+  }
+
+  async editarComentario(id: string, texto: string) {
+    try {
+      const actualizado = await this.comentarioService.modificar(this.idPublicacion, id, texto);
+
+      this.comentarios.update((lista) =>
+        lista.map((comentario) => (comentario._id === actualizado._id ? actualizado : comentario)),
+      );
+    } catch (error) {
+      console.error('No se pudo actualizar el comentario:', error);
+    }
   }
 }

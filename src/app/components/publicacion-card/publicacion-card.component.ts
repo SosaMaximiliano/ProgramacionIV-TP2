@@ -20,6 +20,7 @@ export class PublicacionCard {
   ) {}
 
   @Input() publicacion!: PublicacionRespuesta;
+  @Input() mostrarBotonEliminar = false;
 
   @Output() eventoLike = new EventEmitter<string>();
 

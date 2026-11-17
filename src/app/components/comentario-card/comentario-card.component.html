@@ -12,9 +12,33 @@
       <strong>{{ comentario.usuario.usuario }}</strong>
       <time>{{ comentario.fecha | date: 'd/M/yy, HH:mm' }}</time>
     </header>
-    <p>{{ comentario.comentario }}</p>
-    @if (comentario.modificado) {
-      <small class="edited-label">Editado</small>
+
+    @if (editando && puedeEditar) {
+      <div class="comment-edit">
+        <textarea
+          class="comment-edit__textarea"
+          [(ngModel)]="texto"
+          aria-label="Editar comentario"
+        ></textarea>
+
+        <div class="comment-edit__actions">
+          <button class="edit-button edit-button--save" type="button" (click)="emitirEdicion()">
+            Guardar
+          </button>
+          <button class="edit-button edit-button--cancel" type="button" (click)="cancelarEdicion()">
+            Cancelar
+          </button>
+        </div>
+      </div>
+    } @else {
+      <p>{{ comentario.comentario }}</p>
+      @if (comentario.modificado) {
+        <small class="edited-label">Editado</small>
+      }
     }
   </div>
+
+  @if (puedeEditar && !editando) {
+    <button class="edit-button" type="button" (click)="iniciarEdicion()">Editar</button>
+  }
 </article>
