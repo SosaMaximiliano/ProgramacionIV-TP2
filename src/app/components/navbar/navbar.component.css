@@ -77,13 +77,34 @@
 }
 
 .nav-user {
-  padding: 8px 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 5px 11px 5px 5px;
   border: 1px solid rgb(201 237 220 / 30%);
   border-radius: 999px;
   background: rgb(255 255 255 / 8%);
   color: #fbfffc;
   font-size: 0.9rem;
   font-weight: 700;
+  text-decoration: none;
+}
+
+.nav-avatar {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  place-items: center;
+  overflow: hidden;
+  border: 2px solid rgb(201 237 220 / 65%);
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.nav-avatar--placeholder {
+  background: var(--accent-soft);
+  color: var(--brand);
 }
 
 .nav-logout {

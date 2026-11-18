@@ -17,7 +17,16 @@
 
     @if (usuarioService.usuarioActual(); as usuario) {
       <div class="nav-account">
-        <a class="nav-user" routerLink="/mi-perfil">@{{ usuario.usuario }}</a>
+        <a class="nav-user" routerLink="/mi-perfil" aria-label="Ir a mi perfil">
+          @if (usuario.imagenPerfil; as imagen) {
+            <img class="nav-avatar" [src]="imagen" alt="" />
+          } @else {
+            <span class="nav-avatar nav-avatar--placeholder" aria-hidden="true">
+              {{ usuario.usuario.charAt(0).toUpperCase() }}
+            </span>
+          }
+          <span>@{{ usuario.usuario }}</span>
+        </a>
         <button class="nav-link nav-logout" type="button" (click)="cerrarSesion()">Salir</button>
       </div>
     }

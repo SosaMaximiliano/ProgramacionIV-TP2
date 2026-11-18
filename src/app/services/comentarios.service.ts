@@ -20,6 +20,14 @@ export class ComentariosService {
     );
   }
 
+  async traerTodosPorPublicacion(idPost: string) {
+    return await firstValueFrom(
+      this.http.get<ComentarioRespuesta[]>(`${this.apiUrl}/${idPost}/comentarios`, {
+        headers: this.authService.obtenerHeadersToken(),
+      }),
+    );
+  }
+
   async traerPorId(idPost: string, id: string) {
     return await firstValueFrom(
       this.http.get<ComentarioRespuesta>(`${this.apiUrl}/${idPost}/comentarios${id}`, {
@@ -42,7 +50,7 @@ export class ComentariosService {
 
   async modificar(idPost: string, id: string, texto: string) {
     return await firstValueFrom(
-      this.http.patch<ComentarioRespuesta>(
+      this.http.put<ComentarioRespuesta>(
         `${this.apiUrl}/${idPost}/comentarios/${id}`,
         {
           comentario: texto,

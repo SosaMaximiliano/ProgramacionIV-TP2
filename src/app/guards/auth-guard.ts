@@ -3,9 +3,18 @@ import { AuthService } from '../services/auth.service';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 
-export const authGuard: CanActivateFn = (route, state) => {
+export const authGuard: CanActivateFn = async () => {
   const auth = inject(AuthService);
   const router = inject(Router);
 
-  return auth.obtenerToken() ? true : router.createUrlTree(['/login']);
+  if (!auth.obtenerToken()) return router.createUrlTree(['/login']);
+  if (auth.sesionValidada()) return true;
+
+  try {
+    await auth.autorizar();
+    return true;
+  } catch {
+    auth.limpiarSesion();
+    return router.createUrlTree(['/login']);
+  }
 };

@@ -14,6 +14,9 @@ export class PublicacionesComponent {
   offset = signal(0);
   readonly limit = 10;
   haySiguiente = signal(false);
+  idPublicacionAEliminar = signal<string | null>(null);
+  eliminando = signal(false);
+  errorEliminacion = signal('');
 
   constructor(private publicacionesService: PublicacionesService) {}
 
@@ -62,5 +65,32 @@ export class PublicacionesComponent {
     this.publicaciones.update((lista) =>
       lista.map((post) => (post._id === idPost ? actualizada : post)),
     );
+  }
+
+  solicitarEliminar(idPost: string) {
+    this.errorEliminacion.set('');
+    this.idPublicacionAEliminar.set(idPost);
+  }
+
+  cancelarEliminacion() {
+    if (!this.eliminando()) this.idPublicacionAEliminar.set(null);
+  }
+
+  async confirmarEliminacion() {
+    const idPost = this.idPublicacionAEliminar();
+    if (!idPost || this.eliminando()) return;
+
+    this.eliminando.set(true);
+    this.errorEliminacion.set('');
+    try {
+      await this.publicacionesService.eliminarPublicacion(idPost);
+      this.publicaciones.update((lista) => lista.filter((post) => post._id !== idPost));
+      this.idPublicacionAEliminar.set(null);
+    } catch (error) {
+      console.error('No se pudo eliminar la publicación.', error);
+      this.errorEliminacion.set('No se pudo eliminar la publicación. Intentá nuevamente.');
+    } finally {
+      this.eliminando.set(false);
+    }
   }
 }

@@ -24,18 +24,35 @@
           }
           <label>Usuario<input type="text" formControlName="usuario" /></label>
           @if (formPerfil.get('usuario')?.invalid && formPerfil.get('usuario')?.touched) {
-            <small class="profile-field-error">El usuario debe tener entre 3 y 12 caracteres.</small>
+            <small class="profile-field-error"
+              >El usuario debe tener entre 3 y 12 caracteres.</small
+            >
           }
-          <label class="profile-edit-form__wide">Descripción<textarea formControlName="descripcion" maxlength="100"></textarea></label>
-          <label class="profile-edit-form__wide">Foto de perfil<input type="file" accept="image/jpeg,image/png,image/webp" (change)="seleccionarImagenPerfil($event)" /></label>
+          <label class="profile-edit-form__wide"
+            >Descripción<textarea formControlName="descripcion" maxlength="100"></textarea>
+          </label>
+          <label class="profile-edit-form__wide"
+            >Foto de perfil<input
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              (change)="seleccionarImagenPerfil($event)"
+          /></label>
 
           @if (mensajePerfil()) {
-            <p class="profile-form-message profile-edit-form__wide" role="status">{{ mensajePerfil() }}</p>
+            <p class="profile-form-message profile-edit-form__wide" role="status">
+              {{ mensajePerfil() }}
+            </p>
           }
 
           <div class="profile-edit-actions profile-edit-form__wide">
-            <button type="button" class="profile-cancel" (click)="cancelarEdicionPerfil()">Cancelar</button>
-            <button type="submit" class="profile-save" [disabled]="formPerfil.invalid || guardandoPerfil()">
+            <button type="button" class="profile-cancel" (click)="cancelarEdicionPerfil()">
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              class="profile-save"
+              [disabled]="formPerfil.invalid || guardandoPerfil()"
+            >
               {{ guardandoPerfil() ? 'Guardando…' : 'Guardar cambios' }}
             </button>
           </div>
@@ -61,14 +78,22 @@
         </div>
 
         <div class="profile-details">
-          <div><span>Correo</span><strong>{{ usuario.correo }}</strong></div>
-          <div><span>Edad</span><strong>{{ calcularEdad(usuario.fechaNacimiento) }} años</strong></div>
+          <div>
+            <span>Correo</span><strong>{{ usuario.correo }}</strong>
+          </div>
+          <div>
+            <span>Edad</span><strong>{{ calcularEdad(usuario.fechaNacimiento) }} años</strong>
+          </div>
           @if (usuario.descripcion) {
-            <div class="profile-bio"><span>Sobre mí</span><strong>{{ usuario.descripcion }}</strong></div>
+            <div class="profile-bio">
+              <span>Sobre mí</span><strong>{{ usuario.descripcion }}</strong>
+            </div>
           }
         </div>
         @if (mensajePerfil()) {
-          <p class="profile-form-message profile-form-message--success" role="status">{{ mensajePerfil() }}</p>
+          <p class="profile-form-message profile-form-message--success" role="status">
+            {{ mensajePerfil() }}
+          </p>
         }
       </section>
     }
@@ -77,7 +102,12 @@
   <section>
     <div class="profile-post-card">
       @for (post of publicaciones(); track $index) {
-        <app-publicacion-card [publicacion]="post" (eventoLike)="cambiarLike($event)" />
+        <app-publicacion-card
+          [publicacion]="post"
+          [mostrarBotonEliminar]="true"
+          (eventoLike)="cambiarLike($event)"
+          (eventoEliminar)="solicitarEliminar($event)"
+        />
 
         <div>
           @for (comentario of post.comentarios; track $index) {
@@ -92,3 +122,21 @@
     </div>
   </section>
 </main>
+
+@if (idPublicacionAEliminar()) {
+  <div class="confirm-backdrop" (click)="cancelarEliminacion()">
+    <section class="confirm-modal" role="alertdialog" aria-modal="true" aria-labelledby="profile-confirm-delete-title" (click)="$event.stopPropagation()">
+      <span class="confirm-modal__icon" aria-hidden="true">!</span>
+      <p class="eyebrow">Confirmación</p>
+      <h2 id="profile-confirm-delete-title">¿Eliminar esta publicación?</h2>
+      <p>La publicación dejará de aparecer en el muro.</p>
+      @if (errorEliminacion()) { <p class="confirm-error" role="alert">{{ errorEliminacion() }}</p> }
+      <div class="confirm-modal__actions">
+        <button type="button" class="confirm-cancel" (click)="cancelarEliminacion()" [disabled]="eliminandoPublicacion()">Cancelar</button>
+        <button type="button" class="confirm-delete" (click)="confirmarEliminacion()" [disabled]="eliminandoPublicacion()">
+          {{ eliminandoPublicacion() ? 'Eliminando…' : 'Sí, eliminar' }}
+        </button>
+      </div>
+    </section>
+  </div>
+}

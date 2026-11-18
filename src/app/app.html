@@ -1,3 +1,18 @@
 <app-navbar />
 <router-outlet />
 <app-footer />
+
+@if (authService.mostrarAvisoSesion()) {
+  <div class="session-backdrop">
+    <section class="session-modal" role="dialog" aria-modal="true" aria-labelledby="session-title">
+      <h2 id="session-title">Tu sesión está por vencer</h2>
+      <p>Quedan cinco minutos. ¿Querés extenderla?</p>
+
+      <div class="session-actions">
+        <button type="button" (click)="authService.logout()">Cerrar sesión</button>
+
+        <button type="button" (click)="authService.extenderSesion()">Extender sesión</button>
+      </div>
+    </section>
+  </div>
+}

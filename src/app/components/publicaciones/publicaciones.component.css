@@ -29,7 +29,24 @@
 .page-button:hover:not(:disabled) { border-color: var(--accent); background: var(--accent-soft); color: var(--brand); }
 .page-button:disabled { cursor: not-allowed; opacity: 0.45; }
 
+.confirm-backdrop { position: fixed; inset: 0; z-index: 1500; display: grid; place-items: center; padding: 1rem; background: rgb(40 30 41 / 54%); backdrop-filter: blur(5px); }
+.confirm-modal { width: min(100%, 440px); padding: 2rem; border: 1px solid var(--line); border-radius: 26px; background: var(--surface); box-shadow: 0 28px 80px rgb(34 25 35 / 25%); text-align: center; animation: modal-enter 180ms ease-out; }
+.confirm-modal__icon { display: grid; width: 48px; height: 48px; margin: 0 auto 1rem; place-items: center; border-radius: 16px; background: #eee5ef; color: var(--brand); font-size: 1.5rem; font-weight: 800; }
+.confirm-modal .eyebrow { margin: 0 0 0.35rem; color: var(--teal); font-size: 0.75rem; font-weight: 800; letter-spacing: 0.13em; text-transform: uppercase; }
+.confirm-modal h2 { margin: 0; color: var(--ink); font-size: 1.4rem; letter-spacing: -0.04em; }
+.confirm-modal > p:not(.eyebrow) { margin: 0.7rem 0 1.5rem; color: var(--muted); line-height: 1.5; }
+.confirm-modal__actions { display: flex; justify-content: center; gap: 0.7rem; }
+.confirm-modal__actions button { min-height: 44px; padding: 0 1rem; border: 1px solid transparent; border-radius: 12px; cursor: pointer; font: inherit; font-weight: 750; }
+.confirm-cancel { border-color: var(--line) !important; background: var(--surface); color: var(--ink); }
+.confirm-delete { background: var(--brand); color: white; }
+.confirm-delete:hover:not(:disabled) { background: var(--brand-dark); }
+.confirm-modal__actions button:disabled { cursor: wait; opacity: 0.65; }
+.confirm-error { color: #8d3942 !important; }
+@keyframes modal-enter { from { opacity: 0; transform: translateY(8px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
 @media (max-width: 600px) {
   .feed-page { width: calc(100% - 28px); margin-top: 28px; }
   .feed-heading { align-items: flex-start; flex-direction: column; }
+  .confirm-modal { padding: 1.5rem 1.15rem; }
+  .confirm-modal__actions { flex-direction: column-reverse; }
 }

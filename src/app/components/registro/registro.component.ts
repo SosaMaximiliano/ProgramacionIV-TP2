@@ -2,7 +2,6 @@ import { passwordsIgualesValidator } from './../../validators/custom.validators'
 import { Component, inject, signal } from '@angular/core';
 import { RouterLink, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { UsuarioService } from '../../services/usuario.service';
 import {
   ReactiveFormsModule,
   FormBuilder,
@@ -26,7 +25,6 @@ export class RegistroComponent {
 
   constructor(
     private authService: AuthService,
-    private usuarioService: UsuarioService,
     private router: Router,
   ) {}
 
@@ -104,26 +102,26 @@ export class RegistroComponent {
       //El back devuelve la respuesta como {usuario, access_token}.
       const respuesta = await this.authService.registrar(datos);
 
-      //Guardo el token en sessionStorage
-      sessionStorage.setItem('access_token', respuesta.access_token);
-
-      //Guardo el id de usuario actual
-      sessionStorage.setItem('usuario', respuesta.usuario._id);
-      await this.usuarioService.obtenerUsuarioActual();
+      //Guardo el token y usuario id
+      this.authService.guardarSesion(respuesta);
 
       await this.router.navigate(['/publicaciones']);
     } catch (error) {
       console.log(error);
       if (error instanceof HttpErrorResponse && error.status === 409) {
         const mensajeServidor = error.error?.message;
-        this.mensaje.set(Array.isArray(mensajeServidor)
-          ? mensajeServidor.join(' ')
-          : mensajeServidor || 'El correo o nombre de usuario ya está registrado.');
+        this.mensaje.set(
+          Array.isArray(mensajeServidor)
+            ? mensajeServidor.join(' ')
+            : mensajeServidor || 'El correo o nombre de usuario ya está registrado.',
+        );
       } else if (error instanceof HttpErrorResponse && error.status === 400) {
         const mensajeServidor = error.error?.message;
-        this.mensaje.set(Array.isArray(mensajeServidor)
-          ? mensajeServidor.join(' ')
-          : mensajeServidor || 'Revisá los datos ingresados.');
+        this.mensaje.set(
+          Array.isArray(mensajeServidor)
+            ? mensajeServidor.join(' ')
+            : mensajeServidor || 'Revisá los datos ingresados.',
+        );
       } else {
         this.mensaje.set('No se pudo registrar el usuario. Intentá nuevamente.');
       }

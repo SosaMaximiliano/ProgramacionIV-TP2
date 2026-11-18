@@ -4,7 +4,6 @@ import { Router, RouterLink } from '@angular/router';
 import { UsuarioRespuesta } from '../../modelos/usuario.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
-import { UsuarioService } from '../../services/usuario.service';
 @Component({
   imports: [FormsModule, RouterLink],
   selector: 'app-login',
@@ -20,7 +19,6 @@ export class LoginComponent {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private usuarioService: UsuarioService,
   ) {}
 
   //Para el login uso FormsModule en lugar de ReactiveForms y le paso el formulario por parámetro.
@@ -36,11 +34,8 @@ export class LoginComponent {
       //Llamó al login del servicio
       const respuesta = await this.authService.login(this.identificador, this.password);
       this.usuarioEncontrado = respuesta.usuario;
-      sessionStorage.setItem('usuario', respuesta.usuario._id);
-      sessionStorage.setItem('access_token', respuesta.access_token);
-      await this.usuarioService.obtenerUsuarioActual();
-
-      await this.router.navigate(['/inicio']);
+      this.authService.guardarSesion(respuesta);
+      await this.router.navigate(['/publicaciones']);
     } catch (error) {
       console.log(error);
 

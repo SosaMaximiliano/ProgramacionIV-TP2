@@ -7,7 +7,6 @@ import { API_URL } from '../api.config';
 @Service()
 export class UsuarioService {
   private http = inject(HttpClient);
-  // private apiUrl = 'http://localhost:3000/usuario';
   private apiUrl = `${API_URL}/usuario`;
   usuarioActual = signal<UsuarioRespuesta | null>(null);
 
@@ -29,9 +28,5 @@ export class UsuarioService {
     );
     this.usuarioActual.set(usuarioActualizado);
     return usuarioActualizado;
-  }
-
-  logout() {
-    this.usuarioActual.set(null);
   }
 }

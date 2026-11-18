@@ -30,10 +30,29 @@ export class MiPerfilComponent {
   guardandoPerfil = signal(false);
   mensajePerfil = signal('');
   imagenNueva: File | null = null;
+  idPublicacionAEliminar = signal<string | null>(null);
+  eliminandoPublicacion = signal(false);
+  errorEliminacion = signal('');
 
   formPerfil = this.fb.group({
-    nombre: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(40), Validators.pattern(/^[\p{L}]+(?:[ '-][\p{L}]+)*$/u)]],
-    apellido: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(40), Validators.pattern(/^[\p{L}]+(?:[ '-][\p{L}]+)*$/u)]],
+    nombre: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(40),
+        Validators.pattern(/^[\p{L}]+(?:[ '-][\p{L}]+)*$/u),
+      ],
+    ],
+    apellido: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(40),
+        Validators.pattern(/^[\p{L}]+(?:[ '-][\p{L}]+)*$/u),
+      ],
+    ],
     fechaNacimiento: ['', Validators.required],
     correo: ['', [Validators.required, Validators.email]],
     usuario: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(12)]],
@@ -155,6 +174,33 @@ export class MiPerfilComponent {
       );
     } finally {
       this.guardandoPerfil.set(false);
+    }
+  }
+
+  solicitarEliminar(idPost: string) {
+    this.errorEliminacion.set('');
+    this.idPublicacionAEliminar.set(idPost);
+  }
+
+  cancelarEliminacion() {
+    if (!this.eliminandoPublicacion()) this.idPublicacionAEliminar.set(null);
+  }
+
+  async confirmarEliminacion() {
+    const idPost = this.idPublicacionAEliminar();
+    if (!idPost || this.eliminandoPublicacion()) return;
+
+    this.eliminandoPublicacion.set(true);
+    this.errorEliminacion.set('');
+    try {
+      await this.publicacionesService.eliminarPublicacion(idPost);
+      this.publicaciones.update((lista) => lista.filter((post) => post._id !== idPost));
+      this.idPublicacionAEliminar.set(null);
+    } catch (error) {
+      console.error('No se pudo eliminar la publicación.', error);
+      this.errorEliminacion.set('No se pudo eliminar la publicación. Intentá nuevamente.');
+    } finally {
+      this.eliminandoPublicacion.set(false);
     }
   }
 }
