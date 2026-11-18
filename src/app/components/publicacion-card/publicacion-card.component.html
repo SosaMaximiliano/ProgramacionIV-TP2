@@ -24,7 +24,17 @@
   </div>
 
   <footer class="post-footer">
-    <span>♥ {{ publicacion.likes.length }} <a (click)="emitirLike()">Me gusta</a></span>
+    <button
+      class="like-button"
+      [class.liked]="usuarioDioLike"
+      [attr.aria-pressed]="usuarioDioLike"
+      type="button"
+      (click)="emitirLike()"
+    >
+      <span class="like-heart" aria-hidden="true">♥</span>
+      <span>{{ publicacion.likes.length }}</span>
+      <span>{{ usuarioDioLike ? 'Te gusta' : 'Me gusta' }}</span>
+    </button>
     @if (
       (mostrarBotonEliminar && usuarioService.usuarioActual()?._id === publicacion.usuario._id) ||
       usuarioService.usuarioActual()?.perfil === 'administrador'

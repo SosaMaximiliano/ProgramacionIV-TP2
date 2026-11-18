@@ -10,6 +10,7 @@ import {
   FormsModule,
   Validators,
 } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   imports: [FormsModule, RouterLink, ReactiveFormsModule],
@@ -19,7 +20,7 @@ import {
 })
 export class RegistroComponent {
   private fb = inject(FormBuilder);
-  mensaje = '';
+  mensaje = signal('');
   descripcion = signal('');
   imagenPerfil: File | null = null;
 
@@ -75,6 +76,7 @@ export class RegistroComponent {
   );
 
   async registrarUsuario() {
+    this.mensaje.set('');
     if (this.formRegistro.invalid) {
       this.formRegistro.markAllAsTouched();
       return;
@@ -112,7 +114,19 @@ export class RegistroComponent {
       await this.router.navigate(['/publicaciones']);
     } catch (error) {
       console.log(error);
-      this.mensaje = 'No se pudo registrar el usuario.';
+      if (error instanceof HttpErrorResponse && error.status === 409) {
+        const mensajeServidor = error.error?.message;
+        this.mensaje.set(Array.isArray(mensajeServidor)
+          ? mensajeServidor.join(' ')
+          : mensajeServidor || 'El correo o nombre de usuario ya está registrado.');
+      } else if (error instanceof HttpErrorResponse && error.status === 400) {
+        const mensajeServidor = error.error?.message;
+        this.mensaje.set(Array.isArray(mensajeServidor)
+          ? mensajeServidor.join(' ')
+          : mensajeServidor || 'Revisá los datos ingresados.');
+      } else {
+        this.mensaje.set('No se pudo registrar el usuario. Intentá nuevamente.');
+      }
     }
   }
 

@@ -16,7 +16,7 @@
   gap: 32px;
   padding: clamp(28px, 6vw, 72px);
   overflow: hidden;
-  border: 1px solid #e8e6dc;
+  border: 1px solid var(--line);
   border-radius: 30px;
   background: var(--surface);
   box-shadow: var(--shadow);
@@ -94,7 +94,7 @@
 }
 
 .button-secondary:hover {
-  background: #f3f4ed;
+  background: #eff7f2;
 }
 
 .hero-art {
@@ -102,8 +102,8 @@
   min-height: 340px;
   border-radius: 26px;
   background:
-    radial-gradient(circle at 70% 24%, #f7d9c7 0 13%, transparent 13.5%),
-    radial-gradient(circle at 27% 73%, #d8e8db 0 17%, transparent 17.5%), #f5eee3;
+    radial-gradient(circle at 70% 24%, rgb(137 182 165 / 72%) 0 13%, transparent 13.5%),
+    radial-gradient(circle at 27% 73%, #c9eddc 0 17%, transparent 17.5%), #eaf3ed;
 }
 
 .art-feature,
@@ -123,13 +123,13 @@
   width: 45%;
   aspect-ratio: 0.86;
   transform: translate(-50%, -50%) rotate(-4deg);
-  background: #e9dbc6;
+  background: #c9eddc;
 }
 
 .art-note {
   width: 25%;
   aspect-ratio: 1;
-  background: #fff;
+  background: #fbfffc;
 }
 
 .art-feature img,

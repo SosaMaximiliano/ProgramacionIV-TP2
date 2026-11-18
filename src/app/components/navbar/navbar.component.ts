@@ -1,5 +1,4 @@
-import { UsuarioRespuesta } from '../../modelos/usuario.model';
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { UsuarioService } from '../../services/usuario.service';
@@ -12,12 +11,12 @@ import { UsuarioService } from '../../services/usuario.service';
 export class NavbarComponent {
   constructor(
     readonly authService: AuthService,
-    private usuarioService: UsuarioService,
+    public usuarioService: UsuarioService,
     private router: Router,
   ) {}
 
   cerrarSesion() {
     this.authService.logout();
-    this.router.navigateByUrl('/inicio');
+    this.router.navigateByUrl('/login');
   }
 }

@@ -8,9 +8,11 @@
 }
 
 .auth-panel {
+  position: relative;
   width: min(100%, 460px);
   padding: clamp(28px, 6vw, 48px);
   border: 1px solid var(--line);
+  border-top: 5px solid var(--accent);
   border-radius: 24px;
   background: var(--surface);
   box-shadow: var(--shadow);
@@ -41,7 +43,7 @@
   width: 100%;
   min-height: 48px;
   padding: 0 14px;
-  border: 1px solid #dfe4db;
+  border: 1px solid var(--line);
   border-radius: 12px;
   outline: none;
   background: #fff;
@@ -50,10 +52,10 @@
 
 .auth-form input:focus {
   border-color: var(--brand);
-  box-shadow: 0 0 0 3px rgb(40 107 97 / 12%);
+  box-shadow: 0 0 0 3px rgb(137 182 165 / 24%);
 }
 
-.field-error, .form-message { margin: 4px 0; color: #b44d3c; font-size: 0.88rem; }
+.field-error, .form-message { margin: 4px 0; color: #a0444c; font-size: 0.88rem; }
 
 .form-submit {
   min-height: 48px;

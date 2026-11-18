@@ -1,15 +1,16 @@
 :root {
   color-scheme: light;
-  --page: #f6f4ef;
-  --surface: #fffefa;
-  --ink: #263332;
-  --muted: #71807d;
-  --line: #e5e8df;
-  --brand: #286b61;
-  --brand-dark: #1b514a;
-  --accent: #e48666;
-  --accent-soft: #f8e7df;
-  --shadow: 0 12px 34px rgb(39 62 56 / 8%);
+  --page: #eef6f1;
+  --surface: #fbfffc;
+  --ink: #4c3b4d;
+  --muted: #6a706e;
+  --line: #d8e6de;
+  --brand: #4c3b4d;
+  --brand-dark: #382c39;
+  --accent: #89b6a5;
+  --accent-soft: #c9eddc;
+  --teal: #82968c;
+  --shadow: 0 16px 40px rgb(76 59 77 / 9%);
   font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   color: var(--ink);
   background: var(--page);
@@ -28,7 +29,8 @@ body {
 body {
   min-width: 320px;
   background:
-    radial-gradient(ellipse at 9% 0%, rgb(228 134 102 / 9%), transparent 28rem),
+    radial-gradient(ellipse at 8% 2%, rgb(201 237 220 / 75%), transparent 32rem),
+    radial-gradient(ellipse at 94% 16%, rgb(137 182 165 / 17%), transparent 28rem),
     var(--page);
   color: var(--ink);
 }
@@ -54,11 +56,20 @@ select {
   -webkit-tap-highlight-color: transparent;
 }
 
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid rgb(137 182 165 / 55%);
+  outline-offset: 3px;
+}
+
 a {
   color: var(--brand);
 }
 
 ::selection {
-  color: #fff;
-  background: var(--brand);
+  color: var(--ink);
+  background: var(--accent-soft);
 }

@@ -19,6 +19,18 @@ export class UsuarioService {
     return this.usuarioActual();
   }
 
+  async actualizarPerfil(idUsuario: string, datos: FormData) {
+    const usuarioActualizado = await firstValueFrom(
+      this.http.patch<UsuarioRespuesta>(`${this.apiUrl}/${idUsuario}`, datos, {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem('access_token')}`,
+        },
+      }),
+    );
+    this.usuarioActual.set(usuarioActualizado);
+    return usuarioActualizado;
+  }
+
   logout() {
     this.usuarioActual.set(null);
   }

@@ -9,7 +9,7 @@
         [publicacion]="post"
         [mostrarBotonEliminar]="true"
         (eventoLike)="cambiarLike($event)"
-        (eventoEliminar)="eliminarPublicacion($event)"
+        (eventoEliminar)="solicitarEliminar($event)"
       />
     </section>
   }
@@ -46,3 +46,28 @@
 
   <a class="back-to-wall" routerLink="/publicaciones"> ← Volver al muro </a>
 </main>
+
+@if (idPublicacionAEliminar()) {
+  <div class="confirm-backdrop" (click)="cancelarEliminacion()">
+    <section
+      class="confirm-modal"
+      role="alertdialog"
+      aria-modal="true"
+      aria-labelledby="confirm-delete-title"
+      (click)="$event.stopPropagation()"
+    >
+      <span class="confirm-modal__icon" aria-hidden="true">!</span>
+      <p class="eyebrow">Confirmación</p>
+      <h2 id="confirm-delete-title">¿Eliminar esta publicación?</h2>
+      <p>La publicación dejará de aparecer en el muro.</p>
+      <div class="confirm-modal__actions">
+        <button type="button" class="confirm-cancel" (click)="cancelarEliminacion()" [disabled]="eliminando()">
+          Cancelar
+        </button>
+        <button type="button" class="confirm-delete" (click)="confirmarEliminacion()" [disabled]="eliminando()">
+          {{ eliminando() ? 'Eliminando…' : 'Sí, eliminar' }}
+        </button>
+      </div>
+    </section>
+  </div>
+}

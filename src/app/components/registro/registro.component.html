@@ -97,14 +97,12 @@
       }
     }
 
-    <label>
-      @if (mensaje) {
-        <p>{{ mensaje }}</p>
-      }
-    </label>
+    @if (mensaje()) {
+      <p class="form-message" role="alert">{{ mensaje() }}</p>
+    }
     <div class="container registro-botones">
       <button class="form-submit" type="submit" [disabled]="formRegistro.invalid">Crear cuenta</button>
-      <button class="form-cancel" type="button" routerLink="/inicio">Cancelar</button>
+      <button class="form-cancel" type="button" routerLink="/login">Cancelar</button>
     </div>
   </form>
   <p class="auth-switch">¿Ya tenés cuenta? <a routerLink="/login">Iniciá sesión</a></p>

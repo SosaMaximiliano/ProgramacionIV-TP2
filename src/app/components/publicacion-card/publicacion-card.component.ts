@@ -15,12 +15,17 @@ import { UsuarioService } from '../../services/usuario.service';
 export class PublicacionCard {
   constructor(
     public authService: AuthService,
-    private usuarioService: UsuarioService,
+    public usuarioService: UsuarioService,
     private router: Router,
   ) {}
 
   @Input() publicacion!: PublicacionRespuesta;
   @Input() mostrarBotonEliminar = false;
+
+  get usuarioDioLike(): boolean {
+    const idUsuario = this.usuarioService.usuarioActual()?._id;
+    return !!idUsuario && this.publicacion.likes.includes(idUsuario);
+  }
 
   @Output() eventoLike = new EventEmitter<string>();
 

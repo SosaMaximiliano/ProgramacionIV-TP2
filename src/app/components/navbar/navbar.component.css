@@ -7,9 +7,10 @@
 }
 
 .site-nav {
-  border-bottom: 1px solid rgb(38 51 50 / 8%);
-  background: rgb(255 254 250 / 92%);
-  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgb(201 237 220 / 20%);
+  background: rgb(76 59 77 / 96%);
+  box-shadow: 0 8px 24px rgb(76 59 77 / 16%);
+  backdrop-filter: blur(16px);
 }
 
 .nav-inner {
@@ -25,7 +26,7 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  color: var(--ink);
+  color: #fbfffc;
   font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   font-size: 1.1rem;
   font-weight: 800;
@@ -39,8 +40,8 @@
   height: 34px;
   place-items: center;
   border-radius: 12px;
-  background: var(--brand);
-  color: white;
+  background: var(--accent);
+  color: var(--brand-dark);
   font-size: 1.2rem;
 }
 
@@ -54,7 +55,7 @@
 .nav-link {
   padding: 9px 13px;
   border-radius: 999px;
-  color: #596864;
+  color: #eee7ef;
   font-size: 0.93rem;
   font-weight: 600;
   text-decoration: none;
@@ -65,8 +66,8 @@
 
 .nav-link:hover,
 .nav-user:hover {
-  background: #edf2ed;
-  color: var(--brand-dark);
+  background: rgb(201 237 220 / 17%);
+  color: #c9eddc;
 }
 
 .nav-account {
@@ -77,10 +78,10 @@
 
 .nav-user {
   padding: 8px 12px;
-  border: 1px solid var(--line);
+  border: 1px solid rgb(201 237 220 / 30%);
   border-radius: 999px;
-  background: var(--surface);
-  color: var(--ink);
+  background: rgb(255 255 255 / 8%);
+  color: #fbfffc;
   font-size: 0.9rem;
   font-weight: 700;
 }
@@ -92,13 +93,13 @@
 }
 
 .nav-cta {
-  background: var(--brand);
-  color: white;
+  background: var(--accent);
+  color: var(--brand-dark);
 }
 
 .nav-cta:hover {
-  background: var(--brand-dark);
-  color: white;
+  background: var(--accent-soft);
+  color: var(--brand-dark);
 }
 
 @media (max-width: 680px) {

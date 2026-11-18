@@ -1,12 +1,11 @@
 <nav class="site-nav">
   <div class="nav-inner">
-    <a class="brand" routerLink="/inicio">
+    <a class="brand" [routerLink]="usuarioService.usuarioActual() ? '/publicaciones' : '/login'">
       <span class="brand-mark">C</span>
       <span>CaraLibro</span>
     </a>
 
     <div class="nav-links">
-      <a class="nav-link" routerLink="/inicio">Inicio</a>
       @if (usuarioService.usuarioActual()) {
         <a class="nav-link" routerLink="/publicaciones">Publicaciones</a>
         <a class="nav-link" routerLink="/publicaciones/nueva">Nueva</a>
@@ -18,7 +17,7 @@
 
     @if (usuarioService.usuarioActual(); as usuario) {
       <div class="nav-account">
-        <a class="nav-link" class="nav-user" routerLink="/mi-perfil"> @{{ usuario.usuario }} </a>
+        <a class="nav-user" routerLink="/mi-perfil">@{{ usuario.usuario }}</a>
         <button class="nav-link nav-logout" type="button" (click)="cerrarSesion()">Salir</button>
       </div>
     }

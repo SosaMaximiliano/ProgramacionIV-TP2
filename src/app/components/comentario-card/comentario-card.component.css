@@ -3,7 +3,7 @@
   align-items: flex-start;
   gap: 0.75rem;
   padding: 0.9rem 1rem;
-  border-bottom: 1px solid #e9e5e2;
+  border-bottom: 1px solid var(--line);
 }
 
 .comment-avatar {
@@ -17,8 +17,8 @@
 .avatar-placeholder {
   display: grid;
   place-items: center;
-  color: #fff;
-  background: #8b6f63;
+  color: var(--brand);
+  background: var(--accent-soft);
   font-weight: 700;
 }
 
@@ -36,19 +36,19 @@
 }
 
 .comment-header strong {
-  color: #352d29;
+  color: var(--ink);
   font-size: 0.95rem;
 }
 
 .comment-header time,
 .edited-label {
-  color: #81766f;
+  color: var(--muted);
   font-size: 0.78rem;
 }
 
 .comment-body p {
   margin: 0;
-  color: #514943;
+  color: var(--ink);
   line-height: 1.45;
   overflow-wrap: anywhere;
 }
@@ -71,17 +71,17 @@
   min-height: 5rem;
   resize: vertical;
   padding: 0.75rem;
-  border: 1px solid #d6ded7;
+  border: 1px solid var(--line);
   border-radius: 12px;
-  background: #fff;
-  color: #352d29;
+  background: var(--surface);
+  color: var(--ink);
   font: inherit;
   line-height: 1.45;
 }
 
 .comment-edit__textarea:focus {
-  outline: 3px solid rgb(73 116 91 / 18%);
-  border-color: #6c9278;
+  outline: 3px solid rgb(137 182 165 / 28%);
+  border-color: var(--teal);
 }
 
 .comment-edit__actions {
@@ -92,10 +92,10 @@
 
 .edit-button {
   padding: 0.45rem 0.8rem;
-  border: 1px solid #d6ded7;
+  border: 1px solid var(--line);
   border-radius: 9px;
-  background: #f4f7f3;
-  color: #385d46;
+  background: #eff7f2;
+  color: var(--brand);
   cursor: pointer;
   font: inherit;
   font-size: 0.88rem;
@@ -103,19 +103,19 @@
 }
 
 .edit-button:hover {
-  background: #e8f0e8;
+  background: var(--accent-soft);
 }
 
 .edit-button--save {
-  border-color: #477653;
-  background: #477653;
+  border-color: var(--brand);
+  background: var(--brand);
   color: #fff;
 }
 
 .edit-button--save:hover {
-  background: #386442;
+  background: var(--brand-dark);
 }
 
 .edit-button--cancel {
-  color: #625b56;
+  color: var(--muted);
 }

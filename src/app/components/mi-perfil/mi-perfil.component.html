@@ -1,40 +1,78 @@
 <main class="profile-page">
-  <section class="profile-card">
-    <div class="profile-avatar">
-      @if (usuarioService.usuarioActual()?.imagenPerfil; as imagen) {
-        <img [src]="usuarioService.usuarioActual()?.imagenPerfil" alt="Foto de perfil" />
-      } @else {
-        <span>{{ usuarioService.usuarioActual()?.usuario?.charAt(0)?.toUpperCase() }}</span>
-      }
-    </div>
-
-    <div class="profile-heading">
-      <p class="eyebrow">Tu espacio</p>
-      <h1>
-        {{ usuarioService.usuarioActual()?.nombre }} {{ usuarioService.usuarioActual()?.apellido }}
-      </h1>
-      <p class="profile-handle">@{{ usuarioService.usuarioActual()?.usuario }}</p>
-    </div>
-
-    <div class="profile-details">
-      <div>
-        <span>Correo</span><strong>{{ usuarioService.usuarioActual()?.correo }}</strong>
-      </div>
-      @if (usuarioService.usuarioActual()) {
-        <div>
-          <span>Edad</span
-          ><strong
-            >{{ calcularEdad(usuarioService.usuarioActual()?.fechaNacimiento ?? '') }} años</strong
-          >
+  @if (usuarioService.usuarioActual(); as usuario) {
+    @if (editandoPerfil()) {
+      <section class="profile-card profile-edit-card">
+        <div class="profile-heading">
+          <p class="eyebrow">Tu espacio</p>
+          <h1>Editar perfil</h1>
+          <p class="profile-handle">Actualizá la información de tu cuenta.</p>
         </div>
-      }
-      @if (usuarioService.usuarioActual()?.descripcion) {
-        <div class="profile-bio">
-          <span>Sobre mí</span><strong>{{ usuarioService.usuarioActual()?.descripcion }}</strong>
+
+        <form class="profile-edit-form" [formGroup]="formPerfil" (ngSubmit)="guardarPerfil()">
+          <label>Nombre<input type="text" formControlName="nombre" /></label>
+          @if (formPerfil.get('nombre')?.invalid && formPerfil.get('nombre')?.touched) {
+            <small class="profile-field-error">Revisá el nombre ingresado.</small>
+          }
+          <label>Apellido<input type="text" formControlName="apellido" /></label>
+          @if (formPerfil.get('apellido')?.invalid && formPerfil.get('apellido')?.touched) {
+            <small class="profile-field-error">Revisá el apellido ingresado.</small>
+          }
+          <label>Fecha de nacimiento<input type="date" formControlName="fechaNacimiento" /></label>
+          <label>Correo<input type="email" formControlName="correo" /></label>
+          @if (formPerfil.get('correo')?.invalid && formPerfil.get('correo')?.touched) {
+            <small class="profile-field-error">Ingresá un correo válido.</small>
+          }
+          <label>Usuario<input type="text" formControlName="usuario" /></label>
+          @if (formPerfil.get('usuario')?.invalid && formPerfil.get('usuario')?.touched) {
+            <small class="profile-field-error">El usuario debe tener entre 3 y 12 caracteres.</small>
+          }
+          <label class="profile-edit-form__wide">Descripción<textarea formControlName="descripcion" maxlength="100"></textarea></label>
+          <label class="profile-edit-form__wide">Foto de perfil<input type="file" accept="image/jpeg,image/png,image/webp" (change)="seleccionarImagenPerfil($event)" /></label>
+
+          @if (mensajePerfil()) {
+            <p class="profile-form-message profile-edit-form__wide" role="status">{{ mensajePerfil() }}</p>
+          }
+
+          <div class="profile-edit-actions profile-edit-form__wide">
+            <button type="button" class="profile-cancel" (click)="cancelarEdicionPerfil()">Cancelar</button>
+            <button type="submit" class="profile-save" [disabled]="formPerfil.invalid || guardandoPerfil()">
+              {{ guardandoPerfil() ? 'Guardando…' : 'Guardar cambios' }}
+            </button>
+          </div>
+        </form>
+      </section>
+    } @else {
+      <section class="profile-card">
+        <div class="profile-avatar">
+          @if (usuario.imagenPerfil; as imagen) {
+            <img [src]="imagen" alt="Foto de perfil" />
+          } @else {
+            <span>{{ usuario.usuario.charAt(0).toUpperCase() }}</span>
+          }
         </div>
-      }
-    </div>
-  </section>
+
+        <div class="profile-heading">
+          <p class="eyebrow">Tu espacio</p>
+          <h1>{{ usuario.nombre }} {{ usuario.apellido }}</h1>
+          <p class="profile-handle">@{{ usuario.usuario }}</p>
+          <button type="button" class="profile-edit-button" (click)="iniciarEdicionPerfil()">
+            Editar perfil
+          </button>
+        </div>
+
+        <div class="profile-details">
+          <div><span>Correo</span><strong>{{ usuario.correo }}</strong></div>
+          <div><span>Edad</span><strong>{{ calcularEdad(usuario.fechaNacimiento) }} años</strong></div>
+          @if (usuario.descripcion) {
+            <div class="profile-bio"><span>Sobre mí</span><strong>{{ usuario.descripcion }}</strong></div>
+          }
+        </div>
+        @if (mensajePerfil()) {
+          <p class="profile-form-message profile-form-message--success" role="status">{{ mensajePerfil() }}</p>
+        }
+      </section>
+    }
+  }
 
   <section>
     <div class="profile-post-card">

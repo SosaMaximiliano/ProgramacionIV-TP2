@@ -30,6 +30,8 @@ export class DetallePublicacionComponent {
   hayMas = signal(false);
   mensaje = '';
   cargandoMas = signal(false);
+  idPublicacionAEliminar = signal<string | null>(null);
+  eliminando = signal(false);
 
   constructor(
     private route: ActivatedRoute,
@@ -111,9 +113,29 @@ export class DetallePublicacionComponent {
     this.publicacion.set(actualizada);
   }
 
-  async eliminarPublicacion(idPost: string) {
-    await this.publicacionesService.eliminarPublicacion(idPost);
-    this.router.navigateByUrl('/publicaciones');
+  solicitarEliminar(idPost: string) {
+    this.idPublicacionAEliminar.set(idPost);
+  }
+
+  cancelarEliminacion() {
+    if (!this.eliminando()) this.idPublicacionAEliminar.set(null);
+  }
+
+  async confirmarEliminacion() {
+    const idPost = this.idPublicacionAEliminar();
+    if (!idPost || this.eliminando()) return;
+
+    this.eliminando.set(true);
+    try {
+      await this.publicacionesService.eliminarPublicacion(idPost);
+      this.router.navigateByUrl('/publicaciones');
+    } catch (error) {
+      console.error('No se pudo eliminar la publicación.', error);
+      this.errorPost.set('No se pudo eliminar la publicación. Intentá nuevamente.');
+      this.idPublicacionAEliminar.set(null);
+    } finally {
+      this.eliminando.set(false);
+    }
   }
 
   async cargarMas() {

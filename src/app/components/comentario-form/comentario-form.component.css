@@ -2,15 +2,15 @@
   width: min(100%, 42rem);
   margin: 1rem auto 1.25rem;
   padding: 1rem 1.1rem;
-  border: 1px solid #e9e2dc;
+  border: 1px solid var(--line);
   border-radius: 14px;
-  background: #fff;
-  box-shadow: 0 4px 14px rgb(53 45 41 / 6%);
+  background: #f4faf6;
+  box-shadow: 0 8px 22px rgb(76 59 77 / 6%);
 }
 
 .comment-form-card h3 {
   margin: 0 0 0.8rem;
-  color: #352d29;
+  color: var(--ink);
   font-size: 1rem;
   font-weight: 650;
 }
@@ -26,23 +26,23 @@
   min-height: 5.5rem;
   resize: vertical;
   padding: 0.8rem 0.9rem;
-  border: 1px solid #d8cec6;
+  border: 1px solid var(--line);
   border-radius: 10px;
-  background: #fcfbfa;
-  color: #352d29;
+  background: var(--surface);
+  color: var(--ink);
   font: inherit;
   line-height: 1.45;
   transition: border-color 150ms ease, box-shadow 150ms ease;
 }
 
 .comment-form-card textarea::placeholder {
-  color: #92867e;
+  color: var(--muted);
 }
 
 .comment-form-card textarea:focus {
   outline: none;
-  border-color: #8b6f63;
-  box-shadow: 0 0 0 3px rgb(139 111 99 / 15%);
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgb(137 182 165 / 22%);
 }
 
 .form-footer {
@@ -53,7 +53,7 @@
 }
 
 .form-footer small {
-  color: #81766f;
+  color: var(--muted);
   font-size: 0.78rem;
 }
 
@@ -61,7 +61,7 @@
   border: 0;
   border-radius: 9px;
   padding: 0.6rem 1rem;
-  background: #72574c;
+  background: var(--brand);
   color: #fff;
   font: inherit;
   font-weight: 600;
@@ -70,12 +70,12 @@
 }
 
 .form-footer button:hover:not(:disabled) {
-  background: #594238;
+  background: var(--brand-dark);
   transform: translateY(-1px);
 }
 
 .form-footer button:disabled {
-  background: #c8bdb6;
+  background: var(--teal);
   cursor: not-allowed;
 }
 
