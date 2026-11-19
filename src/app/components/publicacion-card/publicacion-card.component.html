@@ -4,7 +4,7 @@
       <img class="post-avatar" [src]="foto" alt="Foto de {{ publicacion.usuario.usuario }}" />
     } @else {
       <div class="post-avatar avatar-placeholder">
-        {{ (publicacion.usuario.nombre + ' ' + publicacion.usuario.apellido) | iniciales }}
+        {{ publicacion.usuario.nombre + ' ' + publicacion.usuario.apellido | iniciales }}
       </div>
     }
 
@@ -15,9 +15,13 @@
   </header>
 
   <div class="post-content" (click)="verPublicacion(publicacion._id)">
-    <h3>{{ publicacion.titulo }}</h3>
+    <h3>{{ publicacion.titulo | recortarTexto }}</h3>
     <p>
-      {{ mostrarDescripcionCompleta ? publicacion.descripcion : (publicacion.descripcion | recortarTexto) }}
+      {{
+        mostrarDescripcionCompleta
+          ? publicacion.descripcion
+          : (publicacion.descripcion | recortarTexto)
+      }}
     </p>
 
     @if (publicacion.imagenPublicacion; as imagen) {

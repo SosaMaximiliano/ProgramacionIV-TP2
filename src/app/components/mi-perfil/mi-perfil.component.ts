@@ -67,19 +67,29 @@ export class MiPerfilComponent {
   ) {}
 
   async ngOnInit(): Promise<void> {
-    const publicaciones = await this.publicacionesService.traerUltimasPorUsuario(
-      this.usuarioService.usuarioActual()?._id ?? '',
-    );
+    const usuario = this.usuarioService.usuarioActual();
+    if (!usuario) return;
+
+    const publicaciones = await this.publicacionesService.traerUltimasPorUsuario(usuario._id);
+
+    // Mostrar las publicaciones sin esperar a que carguen los comentarios.
+    this.publicaciones.set(publicaciones.map((post) => ({ ...post, comentarios: [] })));
 
     const publicacionesConComentarios = await Promise.all(
-      publicaciones.map(async (post) => ({
-        ...post,
-        comentarios: await this.comentarioService.traerPorPublicacion(
-          post._id,
-          this.offset(),
-          this.limit,
-        ),
-      })),
+      publicaciones.map(async (post) => {
+        try {
+          const comentarios = await this.comentarioService.traerPorPublicacion(
+            post._id,
+            0,
+            this.limit,
+          );
+
+          return { ...post, comentarios };
+        } catch (error) {
+          console.error(`No se pudieron cargar los comentarios de ${post._id}.`, error);
+          return { ...post, comentarios: [] };
+        }
+      }),
     );
 
     this.publicaciones.set(publicacionesConComentarios);
