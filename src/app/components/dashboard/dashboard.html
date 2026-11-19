@@ -1,1 +1,55 @@
-<p>dashboard works!</p>
+<main class="statistics-page">
+  <header class="statistics-heading">
+    <div>
+      <p class="eyebrow">Administración</p>
+      <h1>Estadísticas</h1>
+      <p>Actividad de publicaciones y comentarios en el período elegido.</p>
+    </div>
+  </header>
+
+  <section class="date-filter" aria-label="Rango de fechas">
+    <label>
+      Desde
+      <input type="date" [value]="desde()" (change)="actualizarFecha('desde', $event)" />
+    </label>
+    <label>
+      Hasta
+      <input type="date" [value]="hasta()" (change)="actualizarFecha('hasta', $event)" />
+    </label>
+    <button type="button" (click)="cargarEstadisticas()" [disabled]="cargando()">
+      {{ cargando() ? 'Actualizando…' : 'Actualizar gráficos' }}
+    </button>
+  </section>
+
+  @if (error()) {
+    <p class="statistics-message" role="alert">{{ error() }}</p>
+  }
+
+  <section class="charts-grid" aria-label="Gráficos de estadísticas">
+    <article class="chart-card">
+      <h2>Publicaciones por usuario</h2>
+      <div class="chart-container"><canvas #publicacionesCanvas></canvas></div>
+      @if (cargado() && !cargando()) {
+        <p class="chart-description">Cantidad de publicaciones activas por usuario.</p>
+      }
+    </article>
+    <article class="chart-card">
+      <h2>Comentarios por día</h2>
+      <div class="chart-container"><canvas #comentariosDiaCanvas></canvas></div>
+      @if (cargado() && !cargando()) {
+        <p class="chart-description">Comentarios realizados en cada día del período.</p>
+      }
+    </article>
+    <article class="chart-card chart-card--wide">
+      <h2>Comentarios por publicación</h2>
+      <div class="chart-container chart-container--wide"><canvas #comentariosPublicacionCanvas></canvas></div>
+      @if (cargado() && !cargando()) {
+        <p class="chart-description">Distribución de comentarios entre publicaciones activas.</p>
+      }
+    </article>
+  </section>
+
+  @if (cargando()) {
+    <p class="statistics-loading" role="status">Cargando estadísticas…</p>
+  }
+</main>

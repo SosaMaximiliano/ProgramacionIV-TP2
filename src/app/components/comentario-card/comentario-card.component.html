@@ -3,14 +3,14 @@
     <img class="comment-avatar" [src]="foto" alt="Foto de {{ comentario.usuario.usuario }}" />
   } @else {
     <div class="comment-avatar avatar-placeholder" aria-hidden="true">
-      {{ comentario.usuario.usuario.charAt(0).toUpperCase() }}
+      {{ (comentario.usuario.nombre + ' ' + comentario.usuario.apellido) | iniciales }}
     </div>
   }
 
   <div class="comment-body">
     <header class="comment-header">
       <strong>{{ comentario.usuario.usuario }}</strong>
-      <time>{{ comentario.fecha | date: 'd/M/yy, HH:mm' }}</time>
+      <time [attr.datetime]="comentario.fecha">{{ comentario.fecha | fechaRelativa }}</time>
     </header>
 
     @if (editando && puedeEditar) {
@@ -33,7 +33,7 @@
     } @else {
       <p>{{ comentario.comentario }}</p>
       @if (comentario.modificado) {
-        <small class="edited-label">Editado</small>
+        <small class="edited-label" appResaltarEditado>Editado</small>
       }
     }
   </div>

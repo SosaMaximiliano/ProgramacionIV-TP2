@@ -113,9 +113,9 @@ export class AuthService {
     }
 
     // PARA PRUEBAS
-    // const cincoMinutos = 14.9 * 60 * 1000;
+    const cincoMinutos = 30 * 1000;
 
-    const cincoMinutos = 5 * 60 * 1000;
+    // const cincoMinutos = 5 * 60 * 1000;
 
     this.timerAviso = setTimeout(
       () => this.mostrarAvisoSesion.set(true),

@@ -9,6 +9,10 @@
       @if (usuarioService.usuarioActual()) {
         <a class="nav-link" routerLink="/publicaciones">Publicaciones</a>
         <a class="nav-link" routerLink="/publicaciones/nueva">Nueva</a>
+        @if (usuarioService.usuarioActual()?.perfil === 'administrador') {
+          <a class="nav-link" routerLink="/admin/usuarios">Administrar usuarios</a>
+          <a class="nav-link" routerLink="/admin/estadisticas">Estadísticas</a>
+        }
       } @else {
         <a class="nav-link" routerLink="/login">Ingresar</a>
         <a class="nav-link nav-cta" routerLink="/registro">Crear cuenta</a>

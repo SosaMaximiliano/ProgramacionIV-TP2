@@ -1,11 +1,13 @@
-import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ComentarioRespuesta } from '../../modelos/comentario.model';
 import { FormsModule } from '@angular/forms';
 import { UsuarioService } from '../../services/usuario.service';
+import { FechaRelativaPipe } from '../../pipes/fecha-relativa.pipe';
+import { InicialesPipe } from '../../pipes/iniciales.pipe';
+import { ResaltarEditadoDirective } from '../../directivas/resaltar-editado.directive';
 
 @Component({
-  imports: [DatePipe, FormsModule],
+  imports: [FechaRelativaPipe, InicialesPipe, FormsModule, ResaltarEditadoDirective],
   selector: 'app-comentario-card',
   styleUrl: './comentario-card.component.css',
   templateUrl: './comentario-card.component.html',

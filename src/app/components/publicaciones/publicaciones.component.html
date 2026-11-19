@@ -41,15 +41,35 @@
 
 @if (idPublicacionAEliminar()) {
   <div class="confirm-backdrop" (click)="cancelarEliminacion()">
-    <section class="confirm-modal" role="alertdialog" aria-modal="true" aria-labelledby="feed-confirm-delete-title" (click)="$event.stopPropagation()">
+    <section
+      class="confirm-modal"
+      role="alertdialog"
+      aria-modal="true"
+      aria-labelledby="feed-confirm-delete-title"
+      (click)="$event.stopPropagation()"
+    >
       <span class="confirm-modal__icon" aria-hidden="true">!</span>
       <p class="eyebrow">Confirmación</p>
       <h2 id="feed-confirm-delete-title">¿Eliminar esta publicación?</h2>
       <p>La publicación dejará de aparecer en el muro.</p>
-      @if (errorEliminacion()) { <p class="confirm-error" role="alert">{{ errorEliminacion() }}</p> }
+      @if (errorEliminacion()) {
+        <p class="confirm-error" role="alert">{{ errorEliminacion() }}</p>
+      }
       <div class="confirm-modal__actions">
-        <button type="button" class="confirm-cancel" (click)="cancelarEliminacion()" [disabled]="eliminando()">Cancelar</button>
-        <button type="button" class="confirm-delete" (click)="confirmarEliminacion()" [disabled]="eliminando()">
+        <button
+          type="button"
+          class="confirm-cancel"
+          (click)="cancelarEliminacion()"
+          [disabled]="eliminando()"
+        >
+          Cancelar
+        </button>
+        <button
+          type="button"
+          class="confirm-delete"
+          (click)="confirmarEliminacion()"
+          [disabled]="eliminando()"
+        >
           {{ eliminando() ? 'Eliminando…' : 'Sí, eliminar' }}
         </button>
       </div>

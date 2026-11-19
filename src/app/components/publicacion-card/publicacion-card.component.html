@@ -1,22 +1,24 @@
-<article class="post-card">
+<article class="post-card" appGradienteHover>
   <header class="post-header">
     @if (publicacion.usuario.imagenPerfil; as foto) {
       <img class="post-avatar" [src]="foto" alt="Foto de {{ publicacion.usuario.usuario }}" />
     } @else {
       <div class="post-avatar avatar-placeholder">
-        {{ publicacion.usuario.usuario.charAt(0).toUpperCase() }}
+        {{ (publicacion.usuario.nombre + ' ' + publicacion.usuario.apellido) | iniciales }}
       </div>
     }
 
     <div class="post-author">
       <strong>{{ publicacion.usuario.usuario }}</strong>
-      <time>{{ publicacion.fecha | date: 'd MMM y, HH:mm' }}</time>
+      <time [attr.datetime]="publicacion.fecha">{{ publicacion.fecha | fechaRelativa }}</time>
     </div>
   </header>
 
   <div class="post-content" (click)="verPublicacion(publicacion._id)">
     <h3>{{ publicacion.titulo }}</h3>
-    <p>{{ publicacion.descripcion }}</p>
+    <p>
+      {{ mostrarDescripcionCompleta ? publicacion.descripcion : (publicacion.descripcion | recortarTexto) }}
+    </p>
 
     @if (publicacion.imagenPublicacion; as imagen) {
       <img class="post-image" [src]="imagen" alt="Imagen de la publicación" />
@@ -35,13 +37,13 @@
       <span>{{ publicacion.likes.length }}</span>
       <span>{{ usuarioDioLike ? 'Te gusta' : 'Me gusta' }}</span>
     </button>
-    @if (
-      (mostrarBotonEliminar && usuarioService.usuarioActual()?._id === publicacion.usuario._id) ||
-      usuarioService.usuarioActual()?.perfil === 'administrador'
-    ) {
-      <button class="delete-post-button" type="button" (click)="emitirEliminar()">
-        Eliminar publicación
-      </button>
-    }
+    <button
+      *appPuedeEliminar="puedeEliminar"
+      class="delete-post-button"
+      type="button"
+      (click)="emitirEliminar()"
+    >
+      Eliminar publicación
+    </button>
   </footer>
 </article>

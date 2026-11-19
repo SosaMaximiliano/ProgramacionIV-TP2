@@ -22,6 +22,10 @@ export interface UsuarioRespuesta {
   perfil: string;
 }
 
+export interface UsuarioAdministracion extends UsuarioRespuesta {
+  estaHabilitado: boolean;
+}
+
 export interface LoginRespuesta {
   access_token: string;
   usuario: UsuarioRespuesta;

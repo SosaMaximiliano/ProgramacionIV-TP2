@@ -1,1 +1,178 @@
-<p>usuario-component works!</p>
+<main class="admin-users-page">
+  <header class="admin-page-heading">
+    <div>
+      <p class="eyebrow">Administración</p>
+      <h1>Usuarios</h1>
+      <p>Creá cuentas y administrá el acceso a la comunidad.</p>
+    </div>
+    <span class="user-count">{{ usuarios().length }} cuentas</span>
+  </header>
+
+  <section class="admin-panel create-user-panel">
+    <div class="panel-heading">
+      <div>
+        <p class="eyebrow">Nueva cuenta</p>
+        <h2>Crear usuario</h2>
+      </div>
+    </div>
+
+    <form [formGroup]="formUsuario" (ngSubmit)="crearUsuario()" class="admin-user-form">
+      <label>
+        Nombre
+        <input type="text" formControlName="nombre" autocomplete="given-name" />
+        @if (formUsuario.get('nombre')?.invalid && formUsuario.get('nombre')?.touched) {
+          <small class="field-error">Ingresá un nombre válido de al menos dos letras.</small>
+        }
+      </label>
+      <label>
+        Apellido
+        <input type="text" formControlName="apellido" autocomplete="family-name" />
+        @if (formUsuario.get('apellido')?.invalid && formUsuario.get('apellido')?.touched) {
+          <small class="field-error">Ingresá un apellido válido de al menos dos letras.</small>
+        }
+      </label>
+      <label>
+        Fecha de nacimiento
+        <input type="date" formControlName="fechaNacimiento" />
+      </label>
+      <label>
+        Correo
+        <input type="email" formControlName="correo" autocomplete="email" />
+        @if (formUsuario.get('correo')?.invalid && formUsuario.get('correo')?.touched) {
+          <small class="field-error">Ingresá un correo válido.</small>
+        }
+      </label>
+      <label>
+        Nombre de usuario
+        <input type="text" formControlName="usuario" autocomplete="username" />
+        @if (formUsuario.get('usuario')?.invalid && formUsuario.get('usuario')?.touched) {
+          <small class="field-error">El usuario debe tener entre 3 y 12 caracteres.</small>
+        }
+      </label>
+      <label>
+        Contraseña
+        <input type="password" formControlName="password" autocomplete="new-password" />
+        @if (formUsuario.get('password')?.invalid && formUsuario.get('password')?.touched) {
+          <small class="field-error"
+            >Usá entre 8 y 16 caracteres, con mayúscula, minúscula y número.</small
+          >
+        }
+      </label>
+      <label>
+        Repetir contraseña
+        <input type="password" formControlName="repetirPassword" autocomplete="new-password" />
+        @if (
+          formUsuario.hasError('passwordsNoCoinciden') &&
+          formUsuario.get('repetirPassword')?.touched
+        ) {
+          <small class="field-error">Las contraseñas no coinciden.</small>
+        }
+      </label>
+      <label>
+        Descripción
+        <input type="text" formControlName="descripcion" maxlength="40" />
+      </label>
+
+      <fieldset class="role-options">
+        <legend>Perfil de la cuenta</legend>
+        <label>
+          <input type="radio" formControlName="perfil" value="usuario" />
+          Usuario
+        </label>
+        <label>
+          <input type="radio" formControlName="perfil" value="administrador" />
+          Administrador
+        </label>
+      </fieldset>
+
+      <label class="file-field">
+        Imagen de perfil <span>(opcional)</span>
+        <input
+          type="file"
+          accept="image/jpeg,image/png,image/webp"
+          (change)="seleccionarImagen($event)"
+        />
+      </label>
+
+      @if (mensaje()) {
+        <p class="form-message" [class.form-message--success]="mensajeExitoso()" role="status">
+          {{ mensaje() }}
+        </p>
+      }
+
+      <button class="primary-button" type="submit" [disabled]="formUsuario.invalid || guardando()">
+        {{ guardando() ? 'Creando cuenta…' : 'Crear cuenta' }}
+      </button>
+    </form>
+  </section>
+
+  <section class="admin-panel users-list-panel">
+    <div class="panel-heading">
+      <div>
+        <p class="eyebrow">Cuentas registradas</p>
+        <h2>Listado de usuarios</h2>
+      </div>
+      <button
+        class="secondary-button"
+        type="button"
+        (click)="cargarUsuarios()"
+        [disabled]="cargando()"
+      >
+        Actualizar
+      </button>
+    </div>
+
+    @if (errorLista()) {
+      <p class="form-message" role="alert">{{ errorLista() }}</p>
+    }
+    @if (cargando()) {
+      <p class="empty-message">Cargando usuarios…</p>
+    } @else if (usuarios().length === 0) {
+      <p class="empty-message">Todavía no hay usuarios para mostrar.</p>
+    } @else {
+      <div class="users-list">
+        @for (usuario of usuarios(); track usuario._id) {
+          <article class="user-row">
+            @if (usuario.imagenPerfil) {
+              <img
+                class="user-avatar"
+                [src]="usuario.imagenPerfil"
+                [alt]="'Foto de ' + usuario.usuario"
+              />
+            } @else {
+              <div class="user-avatar avatar-placeholder" aria-hidden="true">
+                {{ usuario.usuario.charAt(0).toUpperCase() }}
+              </div>
+            }
+
+            <div class="user-information">
+              <strong>{{ usuario.nombre }} {{ usuario.apellido }}</strong>
+              <span>@{{ usuario.usuario }} · {{ usuario.correo }}</span>
+            </div>
+
+            <span class="role-badge" [class.role-badge--admin]="usuario.perfil === 'administrador'">
+              {{ usuario.perfil }}
+            </span>
+            <span class="status-badge" [class.status-badge--disabled]="!usuario.estaHabilitado">
+              {{ usuario.estaHabilitado ? 'Habilitado' : 'Deshabilitado' }}
+            </span>
+
+            <button
+              class="state-button"
+              [class.state-button--enable]="!usuario.estaHabilitado"
+              type="button"
+              (click)="cambiarEstado(usuario)"
+              [disabled]="usuarioCambiandoEstado() === usuario._id"
+            >
+              @if (usuarioCambiandoEstado() === usuario._id) {
+                Actualizando…
+              } @else {
+                {{ usuario.estaHabilitado ? 'Deshabilitar' : 'Habilitar' }}
+              }
+            </button>
+          </article>
+        }
+      </div>
+    }
+  </section>
+</main>
