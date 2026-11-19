@@ -7,7 +7,7 @@
   max-width: 760px;
   margin: 16px auto;
   overflow: hidden;
-  border: 1px solid var(--line);
+  border: 2px solid var(--surface);
   border-radius: 24px;
   background: var(--surface);
   box-shadow: 0 12px 32px rgb(76 59 77 / 8%);
@@ -16,14 +16,14 @@
     box-shadow 180ms ease;
 }
 
-.post-card::before {
+/* .post-card::before {
   position: absolute;
   inset: 0 0 auto;
   z-index: 3;
   height: 5px;
   background: linear-gradient(90deg, var(--brand), var(--accent-soft), var(--accent));
   content: '';
-}
+} */
 
 .post-card:hover {
   transform: translateY(-5px);
